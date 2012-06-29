@@ -14,6 +14,12 @@ Filter = Backbone.Model.extend({
   setOff: function(){
     if(this.get('enabled')) this.set({enabled:false});
   },
+  getName: function(){
+    return this.get('name');
+  },
+  setName: function(new_name){
+    this.set({value:new_name});
+  },
   getValue: function(){
     return this.get('value');
   },
@@ -28,12 +34,8 @@ FilterCollection = Backbone.Collection.extend({
     var col = this;
     this.solr = o.solr;
     this.on('change',function(model){
-      if(model.isSet()){
-        col.solr.setFilter(model.get('name'),model.getValue());
-      } else {
-        col.solr.unsetFilter({name:model.get('name'),value:model.getValue()});
-      }
-    });    
+      col.solr.fetch();
+    });
   },
   set:function(o){
     this.name = o.name;

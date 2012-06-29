@@ -18,7 +18,7 @@ SolrCollection = Backbone.Collection.extend({
 
   url: 'http://'+window.location.host+':8983/solr/select',
     
-  initialize: function(o){
+  initialize: function(models,o){
     o = o || {};
     this.params = {
       q: o.query || '',
@@ -31,7 +31,7 @@ SolrCollection = Backbone.Collection.extend({
     this.total_results = 0;
     this.total_pages = 1;
     this.current_page = 1;
-    this.filters = [];
+    this.filters = o.filters || [];
   },
 
   getQuery: function(){
@@ -50,33 +50,21 @@ SolrCollection = Backbone.Collection.extend({
   setParam: function(key,value){
     this.params[key] = value;
   },
-  
-  setFilter: function(new_name,new_value){
-    new_name = new_name + '_str';
-    var new_filter = {name:new_name,value:new_value};
-    if(!_.include(this.filters,new_filter)){
-      this.filters.push(new_filter);
-    }
-    this.fetch();
-  },
 
-  unsetFilter: function(filter_to_unset){
-    this.filters = _.filter(this.filters,function(filter){
-      return (!((filter.name == filter_to_unset.name+'_str') && (filter.value == filter_to_unset.value)));
-    });
-    this.fetch();
-  },
-  
   getFilters: function(){
-    return _.map(this.filters,function(filter){
-      return filter.name.substr(0,filter.length-2);
-    });
+    return _.chain(this.filters)
+            .reduce(function(filters,filter_collection){
+              return filters.concat(filter_collection.toArray());
+            },[])
+            .filter(function(filter){
+              return filter.isSet();
+            }).value()            
   },
 
   getFilterParams: function(){
-    return _.map(this.filters,function(filter){
-      return filter.name+':'+filter.value;
-    });
+    return _.map(this.getFilters(),function(filter){
+              return filter.getName()+ '_str:'+filter.getValue();
+            });
   },
   
   parse: function(data,xhr){

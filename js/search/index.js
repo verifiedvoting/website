@@ -6,9 +6,12 @@ var v = {};
 // javascript templates namespace (JST is jammit's standard location)
 var JST = {};
 
-d.solr = new SolrCollection();
+
 
 d.filters = [];
+d.solr = new SolrCollection([],{
+  filters: d.filters
+});
 
 var router = new Router();
 
@@ -46,7 +49,12 @@ $(function(){
     el: document.getElementById("search-query"),
     collection: d.solr
   });
-  
+
+  // filter list display
+  v.filter_list = new FilterListView({
+    el: document.getElementById("filter-list"),
+    collection: d.solr
+  });  
   
 
   v.controls = new Backbone.Collection();

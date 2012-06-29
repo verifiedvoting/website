@@ -1,6 +1,6 @@
 var ListView = Backbone.View.extend({
   
-  class:'list',
+  className:'list',
     
   initialize: function(o) {
     _.bindAll(this,'render','addOne','addAll','filter');
@@ -15,7 +15,7 @@ var ListView = Backbone.View.extend({
     this.collection.bind('destroy',   this.render);
   },
   
-  render: function(blah) {
+  render: function() {
     if(this.collection.length > 0){
       $('.no-rows', this.el).hide();
     }

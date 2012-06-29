@@ -42,6 +42,7 @@ get_header();
 <script type="text/javascript" src="<?php echo $JS_PATH; ?>/search/views/search_query.js"></script>
 <script type="text/javascript" src="<?php echo $JS_PATH; ?>/search/views/select.js"></script>
 <script type="text/javascript" src="<?php echo $JS_PATH; ?>/search/views/multiselect.js"></script>
+<script type="text/javascript" src="<?php echo $JS_PATH; ?>/search/views/filter_list.js"></script>
 <script type="text/javascript" src="<?php echo $JS_PATH; ?>/search/router.js"></script>
 <script type="text/javascript" src="<?php echo $JS_PATH; ?>/search/index.js"></script>
 
@@ -170,6 +171,9 @@ get_header();
     padding-bottom: 2px;
     padding-top: 2px;    
   }
+  #filter-list{
+    text-transform: capitalize;
+  }
 </style>
 
 
@@ -196,10 +200,6 @@ get_header();
   <div id="search-main" class="span9">
   
     <ul id="filter-list" class="nav nav-pills">
-      <li class="nav-header"><strong>Filters:</strong></li>
-      <li><a href="#">California</a></li>
-      <li><a href="#">Legislation</a></li>
-      <li><a href="#">Audio Files</a></li>
     </ul>
     
     <div id="search-top-paginator"></div>
