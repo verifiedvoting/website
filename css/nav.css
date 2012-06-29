@@ -1,0 +1,47 @@
+/* @override http://dl.dropbox.com/u/491945/vv/css/nav.css */
+
+.navbar-inner {
+  background-image: url(../img/bg/navbar-bg.jpg);
+  background-image: none;
+  padding-left: 20px;
+  padding-right: 20px;
+  box-shadow: none;
+}
+.navbar .nav > li > a {
+  color: #000000;
+  float: none;
+  line-height: 19px;
+  padding: 10px 10px 11px;
+  text-decoration: none;
+  text-shadow: none;
+}
+.navbar .brand {
+  font-weight: bold;
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  top: 8px;
+}
+.brand #logo {
+  border: 1px solid white;
+  vertical-align: middle;
+  margin-right: 4px;
+}
+.navbar .btn, .navbar .btn-group {
+  margin-top: 6px;
+}
+.navbar #action-items {
+  position: relative;
+  width: 165px;
+  margin: 0;
+  padding: 0;
+}
+.navbar #action-items .btn-group {
+  background: #BBBBBB;
+  border-radius: 0 0 6px 6px;
+  padding: 6px;
+  margin: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
