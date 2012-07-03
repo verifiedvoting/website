@@ -23,7 +23,7 @@ var SearchQueryView = Backbone.View.extend({
 
   onChange: function(event){
     // update if keypress was return key, or input is more than two characters long
-    if(event.which==13 || this.$input.val() == '*' || (this.$input.val().length > 2)){
+    if(event.which==13 || this.$input.val() == '*'|| (this.$input.val().length > 2)){
       this.setQuery( this.$input.val() );
     }
   },

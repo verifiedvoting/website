@@ -58,7 +58,7 @@ SolrCollection = Backbone.Collection.extend({
             },[])
             .filter(function(filter){
               return filter.isSet();
-            }).value()            
+            }).value();         
   },
 
   getFilterParams: function(){

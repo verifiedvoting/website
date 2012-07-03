@@ -10,8 +10,12 @@ var FilterListView = Backbone.View.extend({
   render: function() {
     var view = this;
     this.$el.empty();
+    
+    var filters = this.collection.getFilters();
+    if(_.isEmpty(filters)) return this;
+    
     this.$el.append('<li class="nav-header"><strong>Filters:</strong></li>');
-    _.each(this.collection.getFilters(),function(filter){
+    _.each(filters,function(filter){
       if(!filter.isSet()) return;
       var value;
       if(filter.getValue() === '1') value = filter.getName();
@@ -24,6 +28,7 @@ var FilterListView = Backbone.View.extend({
       })
       .appendTo(view.el);
     });
+    
     return this;
   }
 });

@@ -17,9 +17,11 @@ Select = Backbone.View.extend({
   render: function(){
     var view = this;
     this.$el.empty();
+    
     var field = $('<select>')
                 .attr({field_name:this.collection.field_name})
                 .append('<option>'+this.collection.name+'</option>');
+                
     this.collection.each(function(option){
       var $opt = $('<option>')
       .attr({name: option.get('name')})
@@ -30,7 +32,9 @@ Select = Backbone.View.extend({
       }
       $opt.appendTo(field);
     });
+    
     this.$el.append(field);
+    
     return this;
   },
   

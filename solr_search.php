@@ -149,6 +149,7 @@ get_header();
     font-size: 43px;
     left: 13px;
     position: relative;
+    margin-top: 12px;
   }
   .pagination li{
     cursor: pointer;
@@ -162,6 +163,7 @@ get_header();
   }
   #search-input{
     background: #ffffff;
+    margin-top: 12px;
   }
   .nav li.filter:hover{
     background: #0088CC;

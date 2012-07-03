@@ -7,8 +7,10 @@ var v = {};
 var JST = {};
 
 
-
+// array of filter collections
 d.filters = [];
+
+// solr search api
 d.solr = new SolrCollection([],{
   filters: d.filters
 });
@@ -29,8 +31,7 @@ $(function(){
   v.results = new ListView({
     el: document.getElementById("search-results"),
     collection: d.solr,
-    template: 'solr',
-    paginated: false
+    template: 'solr'
   });
 
   // search pagination
@@ -56,7 +57,7 @@ $(function(){
     collection: d.solr
   });  
   
-
+  // Create sidebar search controls
   v.controls = new Backbone.Collection();
 
   _.each(SELECT_FILTERS,function(filter_group){
