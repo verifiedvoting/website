@@ -2,7 +2,7 @@
 Theme Name: Verified Voting
 Author: Radical Designs
 Author URI: http://radicaldesigns.org/
-Description: Verified VOting Theme.
+Description: Verified Voting Theme.
 Version: 1.0
 License: GNU General Public License
 License URI: license.txt
@@ -1293,8 +1293,6 @@ blockquote.pull {
 
 .error404 #main #searchform {
 	background: #f9f9f9;
-	border: 1px solid #ddd;
-	border-width: 1px 0;
 	margin: 0 -8.9% 1.625em;
 	overflow: hidden;
 	padding: 1.625em 8.9%;

@@ -60,7 +60,7 @@ function scrub_booleans($in, $names){
 
 function backup_and_drop(){
   //make this actually back up...
-  mysql_query("TRUNCATE TABLE division");//DROP THEM
+  mysql_query("TRUNCATE TABLE machine");//DROP THEM
 }
 
 function mysql_insert_array($table, $data, $exclude = array()) {

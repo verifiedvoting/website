@@ -28,11 +28,23 @@ if($mode=='state'){
   return_json(0,'here yer state');
 
 } else if ($mode=='machine'){
-  if($_GET['county']){
+  if($_GET['state'] || $_GET['county']){
     $state = $_GET['state'];
     $county = $_GET['county'];
     
-    $query = mysql_escape_string("SELECT * FROM machine WHERE cty_fips LIKE $county");
+    $query = "SELECT * FROM machine WHERE";
+    if($county){
+      $query .= " cty_fips LIKE $county";
+      if($state){
+      $query .= " AND";
+      }
+    }
+    if($state){
+      $query .= " st_fips LIKE $state";
+    }
+       
+    
+    $query = mysql_escape_string($query);
     $resource = mysql_query($query);
     
   
@@ -48,7 +60,13 @@ if($mode=='state'){
     return_json(1,'EMPTY SET - No rows in result');
     }
     
+  } else {
+  
+    return_json(0,'missing state and county for machine search');
   }
+} else if($mode=="country"){
+  $country = file_get_contents('usa.json');
+  return_json(0,'',$country);
 }
 
 //takes an error number (0 passes), a message and an optional array of data

@@ -1,4 +1,4 @@
-<?php
+xx<?php
 /**
  * The template for displaying Category Archive pages.
  *

@@ -1,7 +1,9 @@
+var JST = {};
+
 $(function(){
 
 //we only want geojson format
-
+debug = false; //pipe down!
 
 var width = 740;
 var height = 500;
@@ -24,7 +26,7 @@ svg.append("svg:g").attr("id","data");
     
 svg.append("svg:g").attr("id","ui");
     
-displayMap(svg, 'usa.json');
+displayMap(svg, 'country');
 displayBack(svg);
 
 });
@@ -51,13 +53,13 @@ function displayBack(svg){
   .attr("y",height-20);
   
   $('.back').hide();
-  $(".back").click(function(){displayMap(svg,'usa.json');  $(".back").hide();});
+  $(".back").click(function(){displayMap(svg,'country');$(".back").hide();});
 }
 
 
-
+  
 //pass in a svg element and a geojson set of divisions
-function displayMap(svg, filename){
+function displayMap(svg, what){
     var width = svg.attr("width");
     var height = svg.attr("height");
     d3.select("#ui").append("svg:text")
@@ -69,12 +71,24 @@ function displayMap(svg, filename){
   .attr("y",height-20);
 
   
-  $.getJSON("/wp-content/themes/verified_voting/verifier/data/"+filename,function(divs){  
+  var apiCall = '';
+  //ask the api!
+  if(what=='country'){
+    apiCall = 'mode=country';
+  } else {
+    apiCall = 'mode=state&state='+what;
+  }
+  if(debug){console.log('about to ping api.php?'+apiCall);}
+  
+  $.getJSON("/wp-content/themes/verified_voting/verifier/api.php?"+apiCall,function(divs){  
+    divs = JSON.parse(divs['data']); //throw away the meta that comes in
   
     $('.loading').remove();
     var warpY = 1.25;
     
     $('#data').children().remove();
+    
+    //console.log(divs);
     
     divs.bbox[1] *= warpY;
     divs.bbox[3] *= warpY;
@@ -148,23 +162,49 @@ function displayMap(svg, filename){
       
       }
       
-      //handle clicks and mouseover
+      //handle clicks and mouseover 
       $("path.cousub").click(function(){
-                    var cousub = $(this).attr("data-cousub");
+        var cousub = $(this).attr("data-cousub");
         var county = $(this).attr("data-county-fips");
         var state = $(this).attr("data-state-fips");
         var name = $(this).attr("data-name");
         if(county==null) {
-          console.log("GO");
             $(".back").show();
-          displayMap(svg,'state-'+$(this).attr("data-state-fips")+'.json');
-          
-        } 
-   $("#info").html("Name - " + name + "<br/>state fips - "+state + "<br/>county FIPS - " + county + "<br/>subdiv id - "+cousub );
+          displayMap(svg,parseInt($(this).attr("data-state-fips")));
+        }  else {
+          apiCall = "mode=machine&county="+county;
+          $.getJSON("/wp-content/themes/verified_voting/verifier/api.php?"+apiCall,function(data){  
+            var machines = data['data'];
+            var list = '<b style="font-size:20px;">'+machines[0]['county']+ ' County</b><br/><br/>';
+            list += '<table class="table table-striped table-bordered"><thead><tr><th>Equipment Type</th><th>Make</th><th>Model</th></tr></thead><tbody>';
+            _(machines).each(function(machine){
+              list += '<tr><td>'+machine['equip_type']+"</td><td>"+machine['make']+"</td><td>"+machine['model']+"</td></tr>";
+            });
+            list += "</tbody></table>";
+            $('#list').html(list);
+            if(debug){console.log(list);}
+          });
+        }
+        $("#info").html("Name - " + name + "<br/>state fips - "+state + "<br/>county FIPS - " + county + "<br/>subdiv id - "+cousub );
 
         
       });
    
 
   });
+
+  $('.jst').each(function(index,el){
+    JST[el.id] = _.template($(el).text());
+  });
+  
+    /*
+  machines = new MachineCollection();
+  machineList = new MachineList({
+    collection:machines,
+    el: document.getElementById("machines-list")
+  });
+  
+  machines.fetch({data:{mode:'machine',state:6,county:1}});
+*/
+  
 }

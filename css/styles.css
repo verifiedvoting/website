@@ -68,7 +68,7 @@ h4 {
 .navbar-fixed-top .nav {
     background: url('../img/bg/right-primary-nav.png') right center;
 }
-.navbar-fixed-top .nav a {
+.navbar-fixed-top .nav > a {
     color: #fff;
     font-weight: 500;
     background: url(../img/bg/nav-divide.png) no-repeat right center;
