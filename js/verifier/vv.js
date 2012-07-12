@@ -80,7 +80,7 @@ function displayMap(svg, what){
   }
   if(debug){console.log('about to ping api.php?'+apiCall);}
   
-  $.getJSON("/wp-content/themes/verified_voting/verifier/api.php?"+apiCall,function(divs){  
+  $.getJSON("/api?"+apiCall,function(divs){  
     divs = JSON.parse(divs['data']); //throw away the meta that comes in
   
     $('.loading').remove();
@@ -172,8 +172,10 @@ function displayMap(svg, what){
             $(".back").show();
           displayMap(svg,parseInt($(this).attr("data-state-fips")));
         }  else {
+          machines.fetch({data:{county:county,state:state,mode:'machine'}});
+          /*
           apiCall = "mode=machine&county="+county;
-          $.getJSON("/wp-content/themes/verified_voting/verifier/api.php?"+apiCall,function(data){  
+          $.getJSON("/api?"+apiCall,function(data){  
             var machines = data['data'];
             var list = '<b style="font-size:20px;">'+machines[0]['county']+ ' County</b><br/><br/>';
             list += '<table class="table table-striped table-bordered"><thead><tr><th>Equipment Type</th><th>Make</th><th>Model</th></tr></thead><tbody>';
@@ -183,28 +185,30 @@ function displayMap(svg, what){
             list += "</tbody></table>";
             $('#list').html(list);
             if(debug){console.log(list);}
-          });
+          });*/
         }
-        $("#info").html("Name - " + name + "<br/>state fips - "+state + "<br/>county FIPS - " + county + "<br/>subdiv id - "+cousub );
-
+        //$("#info").html("Name - " + name + "<br/>state fips - "+state + "<br/>county FIPS - " + county + "<br/>subdiv id - "+cousub );
+        
         
       });
    
 
   });
 
+  
   $('.jst').each(function(index,el){
-    JST[el.id] = _.template($(el).text());
+  
+    JST[el.id] = $(el).text();
   });
   
-    /*
+  
   machines = new MachineCollection();
   machineList = new MachineList({
-    collection:machines,
-    el: document.getElementById("machines-list")
+    collection: machines,
+    el: document.getElementById("list"),
+		template: JST['list-view']
   });
   
   machines.fetch({data:{mode:'machine',state:6,county:1}});
-*/
   
 }

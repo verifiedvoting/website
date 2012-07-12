@@ -1,14 +1,35 @@
 <?php
 
+//GET arguments
+// mode [usa | state | machine] - same as the table name we want
+// state [state fips]
+// county [county fips]
+// offset [num rows to offset]
+
+//We respond with a json object containing three things
+// error : an error int, 0 for no error
+// message : human readable string for debugging
+// data : the payload
+//  [[NOTE: If data is GEOJSON, it will be a STRING in the object, not a subobject
+//    It is necesarry to JSON.parse on the clientside]]
+//
+// x-current-offset & x-total-results
+//   we put meta information about result paging in the http response headers
+// 200 / 501 status codes depending on resuts
+
+
+
 include('connection.php');
 
 if(! $mode = $_GET['mode']) {
+  header(' ',true,501);
   return_json(1,'no mode set, what do you want?');
 } 
 
 if($mode=='state'){
   $state = $_GET['state'];
   if(!$state){
+      header(' ',true,501);
     return_json(1,'please specify a state');
   }
   
@@ -20,12 +41,10 @@ if($mode=='state'){
   } else if(mysql_num_rows($resource)>0) {
     $data =  mysql_fetch_assoc($resource);
     return_json(0,'', $data['json']);
-  
   } else {
     return_json(1,'EMPTY SET - No rows in result');
   }
   
-  return_json(0,'here yer state');
 
 } else if ($mode=='machine'){
   if($_GET['state'] || $_GET['county']){
@@ -36,24 +55,29 @@ if($mode=='state'){
     if($county){
       $query .= " cty_fips LIKE $county";
       if($state){
-      $query .= " AND";
+        $query .= " AND";
       }
     }
     if($state){
       $query .= " st_fips LIKE $state";
     }
        
-    
     $query = mysql_escape_string($query);
     $resource = mysql_query($query);
-    
   
     if(mysql_error()){
+        header(' ',true,501);
       return_json(1,mysql_error());
     } else if(mysql_num_rows($resource)>0){
         $data = array();
       while($get = mysql_fetch_assoc($resource)){
       $data[] = $get;
+      }
+      if(count($data)>4) {
+        Header('x-total-results: '.count($data));
+        $offset = $_GET['offset'] ? $_GET['offset'] : 0;
+        Header('x-current-offset: '.$offset);
+        $data = array_slice($data,$offset,5);
       }
       return_json(0,'',$data);
     } else {
@@ -61,7 +85,7 @@ if($mode=='state'){
     }
     
   } else {
-  
+      header(' ',true,501);
     return_json(0,'missing state and county for machine search');
   }
 } else if($mode=="country"){

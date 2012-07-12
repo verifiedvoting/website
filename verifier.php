@@ -40,15 +40,21 @@ background:#fff;
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <script type="text/javascript" src="/wp-content/themes/verified_voting/js/underscore.js"></script>
     <script type="text/javascript" src="/wp-content/themes/verified_voting/js/backbone.js"></script>
-    <script type="text/javascript" src="/wp-content/themes/verified_voting/js/verifier/machine_list.js"></script>
-    <script type="text/javascript" src="/wp-content/themes/verified_voting/js/verifier/machine.js"></script>
-    <script type="text/javascript" src="/wp-content/themes/verified_voting/verifier/vv.js"></script>
+    <script type="text/javascript" src="/wp-content/themes/verified_voting/js/verifier/views/machine_list.js"></script>
+    <script type="text/javascript" src="/wp-content/themes/verified_voting/js/verifier/models/machine.js"></script>
+    <script type="text/javascript" src="/wp-content/themes/verified_voting/js/verifier/collections/machines.js"></script>
+    <script type="text/javascript" src="/wp-content/themes/verified_voting/js/verifier/vv.js"></script>
     
     <script type="text/template" class="jst" id="list-view">
-      <div style="border:1px solid black;">
-      HEY THERE NEIGHBOR!!!!<br/>
-      <%= name %>
-      </div>
+      <td>
+		    <%= machine['equip_type'] %>
+      </td>
+            <td>
+		    <%= machine['make'] %>
+      </td>
+      <td>
+		    <%= machine['model'] %>
+      </td>
     </script>
 
   			<h1>Verifier</h1>

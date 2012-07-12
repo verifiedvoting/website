@@ -1,20 +1,17 @@
-Machine = Backbone.Model.extend({
-
-});
-
 MachineCollection = Backbone.Collection.extend({
-  model:Machine,
+  model: Machine,
   
-  url: 'http://'+window.location.host+'/wp-content/themes/verified_voting/verifier/api.php', 
+  url: '/api', 
 
-  parse: function(data,xhr){
-  if(data.error!=0){
-    console.log('Error: '+data.message);
-  } else {
-    console.log(data.data);
-  }
+  parse: function(res,xhr){
+		if(res.error!=0){
+			console.log('Error: '+res.message);
+		} else {
+			//console.log(res.data);
+		}
+		return res.data;
   
-    /*this.offset = data.response.start;
+    /*this.offset = res.response.start;
     this.results_returned = data.response.docs.length;
     this.total_results = data.response.numFound;
     this.total_pages = Math.ceil(this.total_results / this.getParam('rows'));
@@ -24,9 +21,6 @@ MachineCollection = Backbone.Collection.extend({
     } else {
       return this.models; 
     }*/
-  },
-  
+  }
 
 });
-
-
