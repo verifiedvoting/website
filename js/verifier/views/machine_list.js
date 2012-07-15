@@ -6,12 +6,28 @@ MachineList = Backbone.View.extend({
   },
   
   render: function(){
+    columns = { //pretty print column titles and their mysql equivs
+      'Type of Equipment':'equip_type',
+      'VVPAT' : 'vvpat',
+      'Vendor' : 'vendor',
+      'Make' : 'make',
+      'Model' : 'model',
+      'Firmware Version' : 'firmware_version',
+      'Quantity' : 'quantity'
+    };
     var table = '<table class="table table-striped table-bordered">';
-    table += '<thead><tr><th>Type</th><th>Make</th><th>Model</th></tr></thead>';
-    table += '<tbody>';
+    table += '<thead>';
+    _(columns).each(function(val,key){
+      table += '<th>'+key+'</th>';
+    });
+    table += '</thead><tbody>';
     _(this.collection.models).each(function(machine){
       table += '<tr>';
-      table += _.template(JST['list-view'], {machine:machine.attributes});   
+      _(columns).each(function(val){
+        var contents = machine.attributes[val];
+        contents = contents ? contents : 'n/a';
+        table+='<Td>'+contents+'</td>';
+      });
       table += '</tr>';
     });
     table += '</tbody></table>';

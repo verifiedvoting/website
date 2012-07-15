@@ -18,7 +18,7 @@ stroke:#000;
 fill:#12D;
 }
 #list {
-font-size:16px;
+font-size:14px;
 padding-left:30px;
 padding-bottom:10px;
 }

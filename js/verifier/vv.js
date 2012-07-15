@@ -13,7 +13,7 @@ var svg = d3.select("#body").append("svg:svg")
   .attr("width", width)
   .attr("height", height)
   .attr("style","float:right;");
-    
+     
 svg.append("svg:rect")
   .attr("x",1)
   .attr("y",1)
@@ -22,7 +22,6 @@ svg.append("svg:rect")
   .attr("style","fill:#fff;");
   
 svg.append("svg:g").attr("id","data");
-    
     
 svg.append("svg:g").attr("id","ui");
     
@@ -148,8 +147,8 @@ function displayMap(svg, what){
       
       //random color for us to see
       if(divs.features[a].properties.NAME == 'California' || divs.features[a].properties.NAME == 'Alabama' || divs.features[a].properties.NAME == 'Massachusetts' ){
-      pol.attr("fill","rgb(55,50,255)");
-      pol.attr("stroke","rgb(0,0,200)");
+      pol.attr("fill","rgb(75,70,255)").attr("stroke","rgb(255,255,255)");
+      
       } else {
         var mag = parseInt(5*(Math.sin( Math.PI*2.7*(leftX/width))+1)/2)/5.0;
         //pol.attr("stroke","rgb(255,255,255)");
