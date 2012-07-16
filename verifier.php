@@ -40,9 +40,12 @@ background:#fff;
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <script type="text/javascript" src="/wp-content/themes/verified_voting/js/underscore.js"></script>
     <script type="text/javascript" src="/wp-content/themes/verified_voting/js/backbone.js"></script>
-    <script type="text/javascript" src="/wp-content/themes/verified_voting/js/verifier/views/machine_list.js"></script>
     <script type="text/javascript" src="/wp-content/themes/verified_voting/js/verifier/models/machine.js"></script>
+    <script type="text/javascript" src="/wp-content/themes/verified_voting/js/verifier/models/area.js"></script>
     <script type="text/javascript" src="/wp-content/themes/verified_voting/js/verifier/collections/machines.js"></script>
+    <script type="text/javascript" src="/wp-content/themes/verified_voting/js/verifier/collections/areas.js"></script>
+    <script type="text/javascript" src="/wp-content/themes/verified_voting/js/verifier/views/machine_list.js"></script>
+    <script type="text/javascript" src="/wp-content/themes/verified_voting/js/verifier/views/map.js"></script>
     <script type="text/javascript" src="/wp-content/themes/verified_voting/js/verifier/vv.js"></script>
     
     <script type="text/template" class="jst" id="list-view">
@@ -69,11 +72,15 @@ background:#fff;
     
 		</article>
 </div>
+
 <div style="clear:both;"></div><br/>
   <div id="list" style="display:block;width:990px;">
   Please select a county
   </div>
-			</div><!-- #content -->
+  <div style="margin:20px;color:#555;">Developer notes :<br/>California displays county subdivisions this was the boundry data I tested with, will remedy with count-level boundaries.<br/>Counties do not yet display meta information such as election administrator or breakdown of voters. Working on having these worksheets imported by early next week.</div>
+  <div style="clear:both;"></div><Br>
+  <div id="map"></div>
+			</div><!-- #content --><br/>
 	
 		</section><!-- #primary -->
 

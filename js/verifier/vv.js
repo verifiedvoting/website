@@ -1,33 +1,40 @@
+//GLOBALS
 var JST = {};
 
-$(function(){
+var debug = { //debug switches
+  ajax : false,
+  areas : false,
+  machines : false
+}; 
 
-//we only want geojson format
-debug = false; //pipe down!
+var c = {} //collections namespace
+var v = {} //our views namespace
+
+var svg; //our svg element
 
 var width = 740;
 var height = 500;
 
-//add our svg element
-var svg = d3.select("#body").append("svg:svg")
-  .attr("width", width)
-  .attr("height", height)
-  .attr("style","float:right;");
-     
-svg.append("svg:rect")
-  .attr("x",1)
-  .attr("y",1)
-  .attr("width",width-2)
-  .attr("height",height-2)
-  .attr("style","fill:#fff;");
-  
-svg.append("svg:g").attr("id","data");
+$(function(){
+  //add our svg element
+  var svg = d3.select("#body").append("svg:svg")
+    .attr("width", width)
+    .attr("height", height)
+    .attr("style","float:right;");
+       
+  svg.append("svg:rect")
+    .attr("x",1)
+    .attr("y",1)
+    .attr("width",width-2)
+    .attr("height",height-2)
+    .attr("style","fill:#fff;");
     
-svg.append("svg:g").attr("id","ui");
-    
-displayMap(svg, 'country');
-displayBack(svg);
-
+  svg.append("svg:g").attr("id","data");
+      
+  svg.append("svg:g").attr("id","ui");
+      
+  displayMap(svg, 'country');
+  displayBack(svg);
 });
 
 
@@ -35,8 +42,7 @@ function displayBack(svg){
   var width = svg.attr("width");
   var height = svg.attr("height");
   
-   d3.select("#ui").append("svg:rect")
- //  .attr("class","button")
+  d3.select("#ui").append("svg:rect")
   .attr("x",width-85)
   .attr("y",height-40)
   .attr("width",70)
@@ -59,9 +65,9 @@ function displayBack(svg){
   
 //pass in a svg element and a geojson set of divisions
 function displayMap(svg, what){
-    var width = svg.attr("width");
-    var height = svg.attr("height");
-    d3.select("#ui").append("svg:text")
+  var width = svg.attr("width");
+  var height = svg.attr("height");
+  d3.select("#ui").append("svg:text")
   .text("Loading...")
   .attr("class","loading")
   .attr("text-anchor","middle")
@@ -77,7 +83,7 @@ function displayMap(svg, what){
   } else {
     apiCall = 'mode=state&state='+what;
   }
-  if(debug){console.log('about to ping api.php?'+apiCall);}
+  if(debug.ajax){console.log('about to ping api.php?'+apiCall);}
   
   $.getJSON("/api?"+apiCall,function(divs){  
     divs = JSON.parse(divs['data']); //throw away the meta that comes in
@@ -102,7 +108,7 @@ function displayMap(svg, what){
     var scaleFactor = width/boxWidth;
     
     if(scaleFactor*boxHeight > height){
-    scaleFactor = height/boxHeight;
+      scaleFactor = height/boxHeight;
     }
 
     scaleFactor *= .95; //shave off 5% total, we'll offset by the remaining difference in size later
@@ -117,6 +123,8 @@ function displayMap(svg, what){
       var topY = 0;
       for(b in divs.features[a].geometry.coordinates) {
         var dude = divs.features[a].geometry.coordinates[b];
+        
+        //BUILDING A PATH STRING str
         str +="M";//each poly within the path needs to start with a M move command
         for(c in dude){
           // offset the points, scale them to screen space, add 1/2 the difference between scaled BB and screen
@@ -124,13 +132,14 @@ function displayMap(svg, what){
           dude[c][1] *= warpY;
           dude[c][1] = height - ((dude[c][1]-globalY) * scaleFactor + 0.5*(height-scaleFactor*boxHeight));
           
+          
           if(b==0 && c==0){
             leftX = dude[c][0];
             topY = dude[c][1];
           }
           
           if(c>0){
-          str+="L";//L for 'line to' each next point
+            str+="L";//L for 'line to' each next point
           }
           str += dude[c][0]+" "+dude[c][1]+" ";
         }
@@ -146,9 +155,8 @@ function displayMap(svg, what){
       .attr("data-county-fips",divs.features[a].properties.COUNTY);
       
       //random color for us to see
-      if(divs.features[a].properties.NAME == 'California' || divs.features[a].properties.NAME == 'Alabama' || divs.features[a].properties.NAME == 'Massachusetts' ){
-      pol.attr("fill","rgb(75,70,255)").attr("stroke","rgb(255,255,255)");
-      
+      if(divs.features[a].properties.NAME == 'California' ){
+        pol.attr("fill","rgb(70,200,35)").attr("stroke","rgb(255,255,255)");
       } else {
         var mag = parseInt(5*(Math.sin( Math.PI*2.7*(leftX/width))+1)/2)/5.0;
         //pol.attr("stroke","rgb(255,255,255)");
@@ -159,55 +167,41 @@ function displayMap(svg, what){
       }
       
       
-      }
+    }
       
-      //handle clicks and mouseover 
-      $("path.cousub").click(function(){
-        var cousub = $(this).attr("data-cousub");
-        var county = $(this).attr("data-county-fips");
-        var state = $(this).attr("data-state-fips");
-        var name = $(this).attr("data-name");
-        if(county==null) {
-            $(".back").show();
-          displayMap(svg,parseInt($(this).attr("data-state-fips")));
-        }  else {
-          machines.fetch({data:{county:county,state:state,mode:'machine'}});
-          /*
-          apiCall = "mode=machine&county="+county;
-          $.getJSON("/api?"+apiCall,function(data){  
-            var machines = data['data'];
-            var list = '<b style="font-size:20px;">'+machines[0]['county']+ ' County</b><br/><br/>';
-            list += '<table class="table table-striped table-bordered"><thead><tr><th>Equipment Type</th><th>Make</th><th>Model</th></tr></thead><tbody>';
-            _(machines).each(function(machine){
-              list += '<tr><td>'+machine['equip_type']+"</td><td>"+machine['make']+"</td><td>"+machine['model']+"</td></tr>";
-            });
-            list += "</tbody></table>";
-            $('#list').html(list);
-            if(debug){console.log(list);}
-          });*/
-        }
-        //$("#info").html("Name - " + name + "<br/>state fips - "+state + "<br/>county FIPS - " + county + "<br/>subdiv id - "+cousub );
-        
-        
-      });
-   
-
+    //handle clicks and mouseover 
+    $("path.cousub").click(function(){
+      var cousub = $(this).attr("data-cousub");
+      var county = $(this).attr("data-county-fips");
+      var state = $(this).attr("data-state-fips");
+      var name = $(this).attr("data-name");
+      if(county==null) {
+          $(".back").show();
+        displayMap(svg,parseInt($(this).attr("data-state-fips")));
+      }  else {
+        machines.fetch({data:{county:county,state:state,mode:'machine'}});
+        $('#info').html("Subdivision: "+name+'<br/>');
+      }     
+    });
   });
+}
 
-  
-  $('.jst').each(function(index,el){
-  
-    JST[el.id] = $(el).text();
-  });
-  
-  
+
+//boot it up
+$(function(){
   machines = new MachineCollection();
   machineList = new MachineList({
     collection: machines,
     el: document.getElementById("list"),
-		template: JST['list-view']
+    template: JST['list-view']
   });
   
-  machines.fetch({data:{mode:'machine',state:6,county:1}});
+  areas = new AreaCollection();
+  map = new Map({
+    collection : areas,
+    el : document.getElementById("map")
+  });
   
-}
+  areas.reset();
+  
+});
