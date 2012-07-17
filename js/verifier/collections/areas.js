@@ -1,7 +1,7 @@
 AreaCollection = Backbone.Collection.extend({
   model: Area,
   
-  mode : 'usa', //either usa or state
+  mode : 'country', //either country or state
 
   fips : 0,
 
@@ -13,18 +13,20 @@ AreaCollection = Backbone.Collection.extend({
   	} else {
       //console.log(res.data);
   	}
-    return res.data;
+    return JSON.parse(res.data);
 	},
 	
 	navigate: function(opt){
-  	if(opt.mode=='usa' || opt.mode =='state'){
+  	if(opt.mode=='country'){
     	this.mode = opt.mode;
     	this.fetch({data:{mode:this.mode}});
     	return;
   	}
 
-    if(this.mode=='state'){
+    if(opt.mode=="state"){
+      this.mode = "state";
       this.fips = opt.fips;
+      console.log('thing');
       this.fetch({data:{mode:this.mode,state:this.fips}});
   	}
 	}
