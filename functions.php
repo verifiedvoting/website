@@ -615,3 +615,35 @@ function twentyeleven_body_classes( $classes ) {
 }
 add_filter( 'body_class', 'twentyeleven_body_classes' );
 
+
+// homepage voting news
+function list_posts($custom_field, $num){
+
+	$posts = get_posts(array(
+  	'numberposts' => $num,
+  	'meta_key' => $custom_field,
+  	'meta_value' => true
+  ));
+  
+	foreach($posts as $post) {
+		echo '<div class="row blog-title"><div class="span3">';
+  		setup_postdata($post);  
+      $link = get_permalink($post->ID);
+      
+  		echo '<div class="title">
+  		        <h3>
+  		          <a href="' . $link . '"><span class="gen-icons">&raquo;</span>'.$post->post_title.'
+  		          </a>
+  		        </h3>';
+      echo    '<div class="date">
+                <span class="month">Jan</span>
+                <span class="day">31</span>
+                <span class="year">2012</span>
+               </div> <!-- /date -->
+             </div>'; // /title
+  		echo '<p>';
+  				the_excerpt();
+  		echo '</p>';
+		echo '</div></div>';
+	}
+}

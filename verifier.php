@@ -42,10 +42,13 @@ background:#fff;
     <script type="text/javascript" src="/wp-content/themes/verified_voting/js/backbone.js"></script>
     <script type="text/javascript" src="/wp-content/themes/verified_voting/js/verifier/models/machine.js"></script>
     <script type="text/javascript" src="/wp-content/themes/verified_voting/js/verifier/models/area.js"></script>
+    <script type="text/javascript" src="/wp-content/themes/verified_voting/js/verifier/models/official.js"></script>
     <script type="text/javascript" src="/wp-content/themes/verified_voting/js/verifier/collections/machines.js"></script>
     <script type="text/javascript" src="/wp-content/themes/verified_voting/js/verifier/collections/areas.js"></script>
+    <script type="text/javascript" src="/wp-content/themes/verified_voting/js/verifier/collections/officials.js"></script>
     <script type="text/javascript" src="/wp-content/themes/verified_voting/js/verifier/views/machine_list.js"></script>
     <script type="text/javascript" src="/wp-content/themes/verified_voting/js/verifier/views/map.js"></script>
+        <script type="text/javascript" src="/wp-content/themes/verified_voting/js/verifier/views/info.js"></script>
     <script type="text/javascript" src="/wp-content/themes/verified_voting/js/verifier/vv.js"></script>
     
     <script type="text/template" class="jst" id="list-view">
@@ -59,6 +62,61 @@ background:#fff;
 		    <%= machine['model'] %>
       </td>
     </script>
+
+<script id="paginator" class="jst" type="text/template">
+  <div class="row pagination">
+    <div class="span9">
+      <ul >
+        <% if(current_page > 1) { %>
+          <li>
+            <a class="prev-page">&larr;</a>
+          </li>
+        <% } else { %>
+          <li class='disabled'>
+            <a>&larr;</a>
+          </li>
+        <% } %>
+        <% if(lower_bound > 1){ %>
+          <li>
+            <a class="go-to-page">1</a>
+          </li>
+          <li class='disabled'>
+            <a>...</a>
+          </li>
+        <% } %>
+        <% for(i = lower_bound; i < lower_bound+show_pages && i <= total_pages; i++){ %>
+          <% if(current_page === i) { %>
+            <li class='active'>
+              <a class="current-page"><%= i %></a>
+            </li>
+          <% } else { %>
+            <li>
+              <a class="go-to-page"><%= i %></a>
+            </li>
+          <% } %>
+        <% } %>
+        <% if(lower_bound+show_pages <= total_pages){ %>
+          <li class='disabled'>
+            <a>...</a>
+          </li>
+          <li>
+            <a class="go-to-page"><%= total_pages %></a>
+          </li>
+        <% } %>
+        <% if(current_page < total_pages) { %>
+          <li>
+            <a class="next-page">&rarr;</a>
+          </li>
+        <% } else { %>
+          <li class='disabled'>
+            <a>&rarr;</a>
+          </a>
+        <% } %>
+      </ul>
+    </div>
+  </div>
+</script>
+
 
   			<h1>Verifier</h1>
 <div style="width:994px;">
@@ -74,9 +132,11 @@ background:#fff;
 </div>
 
 <div style="clear:both;"></div><br/>
+<div id="machines-paginator">paginator go here<div>
   <div id="list" style="display:block;width:990px;">
   Please select a county
   </div>
+  
   <div style="margin:20px;color:#555;">Developer notes :<br/>California displays county subdivisions this was the boundry data I tested with, will remedy with count-level boundaries.<br/>Counties do not yet display meta information such as election administrator or breakdown of voters. Working on having these worksheets imported by early next week.</div>
   <div style="clear:both;"></div><Br>
   <div id="map"></div>

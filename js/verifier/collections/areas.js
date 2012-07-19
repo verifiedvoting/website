@@ -7,6 +7,7 @@ AreaCollection = Backbone.Collection.extend({
 
   url: '/api',
   
+  
   parse: function(res,xhr){
   	if(res.error!=0){
   		if(debug.areas) console.log('Error: '+res.message);
@@ -16,7 +17,8 @@ AreaCollection = Backbone.Collection.extend({
     return JSON.parse(res.data);
 	},
 	
-	navigate: function(opt){
+	//external calls
+	navigate: function(opt){ 
   	if(opt.mode=='country'){
     	this.mode = opt.mode;
     	this.fetch({data:{mode:this.mode}});

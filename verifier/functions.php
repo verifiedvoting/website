@@ -28,7 +28,6 @@ function marry($key, $data){
 
 //in array form of 
 function scrub_names($in){
-
     $out = array();
     foreach($in as $key => $value){
         $value = strtolower($value);
@@ -36,31 +35,44 @@ function scrub_names($in){
         
         $out[$key] = $value;
     }
-    
     return($out);
-    
 }
-
 
 //takes in a row and processes all indexes listed in names
 function scrub_booleans($in, $names){
-    foreach($names as $name=>$val){
-        if(isset($in[$name])){
-            $scrubme = $in[$name];
-            $scrubme = trim($scrubme);
-            if(strlen($scrubme)>0) {
-                $in[$name] = 1;
-            } else {
-                $in[$name] = 0;
-            }
-            
-        }
+  foreach($names as $name){
+    if(isset($in[$name])){
+      $scrubme = $in[$name];
+      $scrubme = trim($scrubme);
+      if(strlen($scrubme) > 0) {
+          $in[$name] = true;
+      } else {
+          $in[$name] = false;
+      } 
     }
+  }
+  return $in;
 }
 
-function backup_and_drop(){
+function filter_columns($in, $names){
+  $out = array();
+  foreach($names as $name){
+    if(isset($in[$name])){
+    $out[$name] = $in[$name];
+    }
+  }  
+  return $out;
+}
+
+
+function backup_and_drop($table){
   //make this actually back up...
-  mysql_query("TRUNCATE TABLE machine");//DROP THEM
+  if(!$table){
+    
+    $table = 'machine';
+  }
+  
+  mysql_query("TRUNCATE TABLE $table");//DROP THEM
 }
 
 function mysql_insert_array($table, $data, $exclude = array()) {

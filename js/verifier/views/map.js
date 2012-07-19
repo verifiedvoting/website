@@ -141,6 +141,7 @@ Map = Backbone.View.extend({
       if(county==null) {
         $(".back").show();
         areas.navigate({mode:'state',fips:state});
+        machines.fetch({data:{state:state,mode:'machine'}});
       }  else {
         machines.fetch({data:{county:county,state:state,mode:'machine'}});
         $('#info').html("Subdivision: "+name+'<br/>');

@@ -13,10 +13,6 @@ var v = {} //our views namespace
 var width = 740;
 var height = 500;
 
-$(function(){
-  
-});
-
 
 $(function(){
   //PUT A SVG ON THE DOM, pass this ref to the map later
@@ -37,6 +33,11 @@ $(function(){
       
 
   //BACKBONE BOOT
+    // compile all available templates using _.template
+  $('.jst').each(function(index,el){
+    JST[el.id] = _.template($(el).text());
+  });
+  
   machines = new MachineCollection();
   machineList = new MachineList({
     collection: machines,
@@ -50,6 +51,19 @@ $(function(){
     svg : svg,
     test : "hello world"
   });
+  
+  officials = new OfficialCollection();
+  info = new Info({
+    collection : officials,
+    el: document.getElementById("info"),
+  });
+  
+    /*// search pagination
+  paginator = new PaginationView({
+    el: document.getElementById("machines-paginator"),
+    collection: machines
+  });*/
+  
   
   console.log('calling areas.fetch, expect reset callback on map');
   areas.fetch({data:{mode:'country'}});
