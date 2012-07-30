@@ -138,22 +138,22 @@
                   </li>
                   <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown"
-                        href="#">
+                        href="about-us">
                         About
                         <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu">
                       <li class="">
-                        <a href="/base-css.html">Our Mission</a>
+                        <a href="/about-us/our-mission/">Our Mission</a>
                       </li>
                       <li class="">
-                        <a href="/base-css.html">Staff</a>
+                        <a href="/about-us/staff">Staff</a>
                       </li>
                       <li class="">
-                        <a href="/base-css.html">Board</a>
+                        <a href="/about-us/board">Board</a>
                       </li>
                       <li class="">
-                        <a href="base-css.html">Contact Us</a>
+                        <a href="/about-us/contact-us">Contact Us</a>
                       </li>
                     </ul>
                   </li>
@@ -165,16 +165,16 @@
                     </a>
                     <ul class="dropdown-menu">
                       <li class="">
-                        <a href="#">Press Contacts</a>
+                        <a href="press-contacts">Press Contacts</a>
                       </li>
                       <li class="">
-                        <a href="#">Press Releases</a>
+                        <a href="/press-releases">Press Releases</a>
                       </li>
                       <li class="">
-                        <a href="#">In the News</a>
+                        <a href="in-the-news">In the News</a>
                       </li>
                       <li class="">
-                        <a href="#">Contact Us</a>
+                        <a href="/about-us/contact-us">Contact Us</a>
                       </li>
                     </ul>
                   </li>

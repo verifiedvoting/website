@@ -109,8 +109,6 @@ body {
 .singular .entry-content,
 .singular footer.entry-meta,
 .singular #comments-title {
-	margin: 0 auto;
-	width: 68.9%;
 }
 
 /* Attachments */
@@ -1087,7 +1085,7 @@ article.format-status .entry-content {
 	position: relative;
 }
 .singular.page .hentry {
-	padding: 3.5em 0 0;
+	padding: 0;
 }
 .singular .entry-title {
 	color: #000;
@@ -2039,7 +2037,7 @@ a.comment-reply-link > span {
 	border: 1px solid #d3d3d3;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
-	margin: 0 auto 1.625em;
+	margin: 0;
 	padding: 1.625em;
 	position: relative;
 	width: 68.9%;
@@ -2424,7 +2422,7 @@ p.comment-form-comment {
 		padding: 1.625em 0 0;
 	}
 	.singular.page .hentry {
-		padding: 1.625em 0 0;
+		padding: 0;
 	}
 	/* Talking avatars take up too much room at this size */
 	.commentlist > li.comment,

@@ -78,13 +78,13 @@ h4 {
     padding-left: 20px;
     padding-right: 20px;
     box-shadow: none;
-    background: url('../img/bg/navbar-highlight.png') no-repeat center top, url(../img/bg/navbar-bg.jpg) repeat-x right bottom #00588a;
+    background: url('../img/bg/navbar-highlight.png') no-repeat left top, url(../img/bg/navbar-bg.jpg) repeat-x right bottom #00588a;
 }
 .navbar-inner .nav-section {
     padding: 7px 0;
 }
 .nav-section.a-items {
-    background: url(../img/bg/masthead-vert-darken.png) repeat-y left top;
+//    background: url(../img/bg/masthead-vert-darken.png) repeat-y left top;
     padding: 10px 0 18px 10px;
     margin-bottom: -20px;
     overflow: hidden;
@@ -101,9 +101,10 @@ font-size: 1.2em;
 .navbar .brand {
   font-weight: bold;
   padding: 0;
-  margin: 0;
+  margin: 0 0 0 10px;
   position: absolute;
   top: 8px;
+  font-size: 25px;
 }
 .brand #logo {
   border: 1px solid white;
@@ -264,8 +265,9 @@ h1.title {
     border: 0;
     padding: 9px 0 9px 10px;
     margin: 0;
-    text-shadow: none;
-    box-shadow: 0;
+    text-shadow: none !important;
+    box-shadow: none !important;
+    background: transparent;
     }
 .email-sign-up form input:focus {
     border: 0;
@@ -306,8 +308,6 @@ h1.title {
 }
 .callout-title:hover {
   text-decoration: none;
-  background-color: #fff;
-  
 }
 .callout-title h1 {
   color: #000;
@@ -476,10 +476,10 @@ z-index: 100;
 .blog-list li {
     padding-left: 20px;
 }
-.blog-list li {
-margin-bottom: .7em;
-padding-top: .7em;
-  background: url(../img/bg/dot-3x1-gray-30.png) repeat-x left top;
+.blog-list li, .blog-title div.span3 {
+margin-top: .7em;
+padding-bottom: .7em;
+background: url(../img/bg/dot-3x1-gray-30.png) repeat-x left bottom;
 }
 .title span.gen-icons,
 .blog-list span.gen-icons {
@@ -585,23 +585,30 @@ padding-top: .7em;
     display: none;
   }
  .callout-wrapper.mobile-only {
-     margin: 1em 0;
-     border-radius: 5px;
-     filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#e93946', EndColorStr='#9f0222');
-     background: url(../img/bg/button-highlight.png) no-repeat center top, -moz-linear-gradient(90deg, #aa0924 0%, #d1232e 100%) #e93946;
-     background: url(../img/bg/button-highlight.png) no-repeat center top, -webkit-gradient(linear, left bottom, left top, from(#aa0924), to(#d1232e)) #e93946;
- }
-  .callout-wrapper.mobile-only .callout{
-      display: inline-block;
-      width: 49%;
-      
-  }
-  .callout-wrapper.mobile-only .callout .callout-title {
-      background-image: none; 
-    }
-    
-    
+margin: 1em 0;
 }
+.callout-wrapper.mobile-only .callout{
+display: inline-block;
+width: 48%;
+margin-left: 1%;
+border-radius: 5px;
+filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#e93946', EndColorStr='#9f0222');
+background: -moz-linear-gradient(90deg, #aa0924 0%, #d1232e 100%) #e93946;
+background: -webkit-gradient(linear, left bottom, left top, from(#aa0924), to(#d1232e)) #e93946;
+
+}
+
+
+.callout-wrapper.mobile-only .callout .callout-title {
+background-image: none; 
+}
+
+.callout-wrapper.mobile-only .callout .callout-title h1{
+    color: #FFFFFF;
+    text-shadow: 0 0 7px rgba(0, 0, 0, 0.75);
+    text-transform: uppercase;
+}
+
 @media (max-width: 480px) {
   h1 {
     font-size: 18px;

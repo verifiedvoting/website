@@ -10,6 +10,8 @@ get_header(); ?>
 
 		<div id="primary">
 			<div id="content" role="main">
+			 <h1 class="entry-title">The Voting News</h1>
+
 			<?php if ( have_posts() ) : ?>
 
 				<?php twentyeleven_content_nav( 'nav-above' ); ?>

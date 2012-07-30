@@ -56,7 +56,7 @@
               VerifiedVoting.org, is a 501(c)(4) lobbying organization.  VerifiedVoting.org engages in lobbying activities permitted by IRS Section 501(c)(4).  Please visit <a href="http://www.verifiedvotingfoundation.org">VerifiedVotingFoundation.org</a> for info about 501(c)(3) educational activities.  You can also visit <a href="http://votetrustusa.org/">Vote Trust USA</a>, a project of the Verified Voting Foundation.
             </p>
             <p>
-              © Copyright 2010, Verified Voting Foundation, Inc. All rights reserved, although reprint permission granted for nonprofit purposes with attribution to Verified Voting Foundation, Inc.
+              &copy; Copyright 2010, Verified Voting Foundation, Inc. All rights reserved, although reprint permission granted for nonprofit purposes with attribution to Verified Voting Foundation, Inc.
             </p>
           </div>
         </div>

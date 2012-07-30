@@ -128,8 +128,8 @@ get_header(); ?>
           </div>
       
           <h2><a href="http://thevotingnews.com/">The Voting News</a></h2>
-      
-          <div class="row blog-title">
+      <?php list_posts('the_voting_news', 3) ?>
+<!--      <div class="row blog-title">
             <div class="span3">
               <div class="title">
                 <h3><a href="base-css.html"><span class="gen-icons">&raquo;</span>Example blog title</a></h3>
@@ -170,14 +170,15 @@ get_header(); ?>
                   </div>
                 </li>
               </ul>
-              <a class="read-more pull-right">read more È</a>
+              <a class="read-more pull-right">read more &raquo;</a>
             </div>
           </div>
-      
+
           <hr>
-      
+-->      
           <h2><a href="http://thevotingnews.com/">Verified Voting Blog</a></h2>
-      
+      <?php list_posts('verified_voting_blog', 3) ?>
+<!--       
           <div class="row blog-title">
             <div class="span3">
               <div class="title">
@@ -224,6 +225,6 @@ get_header(); ?>
       
         </div>
         </div>
-      
+-->      
       </div>
 <?php get_footer(); ?>

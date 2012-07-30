@@ -20,15 +20,17 @@
 			<?php endif; ?>
 
 			<?php if ( 'post' == get_post_type() ) : ?>
+<!--
 			<div class="entry-meta">
 				<?php twentyeleven_posted_on(); ?>
 			</div><!-- .entry-meta -->
 			<?php endif; ?>
 
 			<?php if ( comments_open() && ! post_password_required() ) : ?>
-			<div class="comments-link">
+<!-- 			<div class="comments-link">
 				<?php comments_popup_link( '<span class="leave-reply">' . __( 'Reply', 'twentyeleven' ) . '</span>', _x( '1', 'comments number', 'twentyeleven' ), _x( '%', 'comments number', 'twentyeleven' ) ); ?>
 			</div>
+ -->
 			<?php endif; ?>
 		</header><!-- .entry-header -->
 
@@ -77,6 +79,6 @@
 			<span class="comments-link"><?php comments_popup_link( '<span class="leave-reply">' . __( 'Leave a reply', 'twentyeleven' ) . '</span>', __( '<b>1</b> Reply', 'twentyeleven' ), __( '<b>%</b> Replies', 'twentyeleven' ) ); ?></span>
 			<?php endif; // End if comments_open() ?>
 
-			<?php edit_post_link( __( 'Edit', 'twentyeleven' ), '<span class="edit-link">', '</span>' ); ?>
+			<?php # edit_post_link( __( 'Edit', 'twentyeleven' ), '<span class="edit-link">', '</span>' ); ?>
 		</footer><!-- #entry-meta -->
 	</article><!-- #post-<?php the_ID(); ?> -->
