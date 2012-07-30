@@ -12,6 +12,12 @@ stroke:#000;
 fill:#FFF;
 }
 
+.box {
+  width:100px;
+  height:100px;
+  float:left;
+}
+
 
 .button:hover {
 stroke:#000;
@@ -30,6 +36,44 @@ width:90%;
 #content {
 background:#fff;
 }
+
+path {
+fill:rgb(100,100,100);
+}
+
+path.none {
+  fill:rgb(160,160,160) ;
+}
+
+path.pbvs {
+  fill:#0c810d ;
+}
+
+path.mpbv {
+ fill:#23ff25;
+}
+
+path.mpbn {
+    fill:#ffa500;
+}
+
+path.mpdx {
+    fill:#ff00ff;
+}
+
+path.drev {
+  fill:#FFFF00;
+}
+
+path.dren {
+  fill:#FF0000;
+}
+
+
+path {
+  stroke:black;
+}
+
 
 
   </style>
@@ -124,8 +168,8 @@ background:#fff;
 
   		<div id="body" >
         <div id="info" class="sidebar-nav well" style="float:right;width:190px;padding:10px;margin:10px;">
-      
-      </div>
+          
+        </div>
       </div>
     
 		</article>

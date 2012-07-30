@@ -32,6 +32,8 @@ Type of data<br/>
 include('verifier/functions.php');
 include('verifier/connection.php');
 
+$fail = array(); //array for failed lines
+
 if(count($_POST)>0) {
   
   if ($_FILES["file"]["error"] > 0){
@@ -46,10 +48,10 @@ if(count($_POST)>0) {
     
     if($table=='machine'){
       $boolscrub = array(
-      'pbvs','dre_pushbutton','dre_touchscreen','dre_dial','vvpat','bmd','tbad','punchcard','hcpb','vote_by_mail');
-    $pass = explode(
-      ' ',
-      'year state county division jurisdiction_type corrected_fips st_fips cty_fips div_fips pbvs dre_pushbutton dre_touchscreen dre_dial vvpat bmd tbad punchcard hcpb vote_by_mail equip_type vendor make model firmware_version software_version quantity pp_std pp_std_pc pp_std_cc pp_dis pp_dis_pc pp_dis_cc ev_std ev_dis'
+        'pbvs','dre_pushbutton','dre_touchscreen','dre_dial','vvpat','dre_vvpat','dre_no_vvpat','dre_x_vvpat','bmd','tbad','punchcard','hcpb','vote_by_mail', 'pp_std', 'pp_std_pc', 'pp_std_cc', 'ev_std', 'ev_dis');
+      $pass = explode(
+        ' ',
+        'year state county division jurisdiction_type corrected_fips state_fips city_fips division_fips pbvs dre_vvpat dre_no_vvpat dre_x_vvpat dre_pushbutton dre_touchscreen dre_dial vvpat bmd tbad punchcard hcpb vote_by_mail equip_type vendor make model firmware_version software_version quantity pp_std pp_std_pc pp_std_cc pp_dis pp_dis_pc pp_dis_cc ev_std ev_dis'
       );
      import_sheet($fref,$table,$pass,$boolscrub);   
     } else if($table=='official'){
@@ -59,6 +61,24 @@ if(count($_POST)>0) {
     }
    
   }
+}
+
+function get_fips($number){
+  //we have a 9-10 digit code (should be 10 with leading zero but we assume conversions eat it)
+  //  A BBB CCCCC
+  // AA BBB CCCCC
+  $len = strlen($number);
+  
+  $division = substr($number,$len-5,5); 
+  $county = substr($number,$len-8,3);
+  $state = 0;
+  if($len==10){
+    $state = substr($number,0,2);
+  } else {
+    $state = substr($number,0,1);
+  }
+  $out =  array('state'=>$state, 'county'=>$county, 'division'=>$division);
+  return $out;
 }
 
 
@@ -82,15 +102,25 @@ function import_sheet($csv, $table, $pass, $boolscrub){
     }
     $row = marry($column_names,$row);
     
-
+    
+    $fips = get_fips($row['fips_code']);
     $row = filter_columns($row, $pass);
+    $row['state_fips'] = $fips['state'];
+    $row['county_fips'] = $fips['county'];
+    $row['division_fips'] = $fips['division'];
     $row = scrub_booleans($row, $boolscrub);
     
     $import_list .= $row['county']." - ".$row['equip_type']." row inserted<br/>";
 
     
     //echo '<br/>Inserting row:<Br/>';
+    if($row['jurisdiction_type']=='State'){
+      print_r($row);
+    }
     $result = mysql_insert_array($table,$row);
+    if($result) {
+      echo $result;
+    }
     $count++;  
   }
   echo $import_list;

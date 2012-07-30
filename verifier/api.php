@@ -33,7 +33,7 @@ if($mode=='state'){
     return_json(1,'please specify a state');
   }
   
-  $query = mysql_escape_string("SELECT * FROM state WHERE st_fips LIKE $state");
+  $query = mysql_escape_string("SELECT * FROM state WHERE state_fips LIKE $state");
   $resource = mysql_query($query);
   
   if(mysql_error()){
@@ -53,16 +53,19 @@ if($mode=='state'){
     
     $query = "SELECT * FROM machine WHERE";
     if($county){
-      $query .= " cty_fips LIKE $county";
+      $query .= " county_fips LIKE $county";
       if($state){
         $query .= " AND";
       }
     }
     if($state){
-      $query .= " st_fips LIKE $state";
+      $query .= " state_fips LIKE $state";
     }
+ 
        
     $query = mysql_escape_string($query);
+       
+    $query .= " AND jurisdiction_type LIKE 'County'";
     $resource = mysql_query($query);
   
     if(mysql_error()){
@@ -138,7 +141,6 @@ if($mode=='state'){
 function return_json($errorno,$message,$data=array()){
   echo json_encode(array('error'=>$errorno,'message'=>$message,'data'=>$data));
   die();
-
 }
 
 

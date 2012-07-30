@@ -8,15 +8,14 @@ MachineList = Backbone.View.extend({
   render: function(){
     //generate a table based on these column name keys
     columns = { //pretty print column titles and their mysql equivs
-      'Type of Equipment':'equip_type',
-      'VVPAT' : 'vvpat',
-      'Vendor' : 'vendor',
       'Make' : 'make',
       'Model' : 'model',
+      'Type of Equipment':'equip_type',
+      'VVPAT' : 'vvpat',
+            'Vendor' : 'vendor',
       'Firmware Version' : 'firmware_version',
-      'Quantity' : 'quantity'
     };
-    var table = '<b style="font-size:20px;">'+this.collection.models[0].attributes['county']+' 2012</b><Br/>';
+    var table = '<b style="font-size:20px;">'+areas.currentName+' 2012</b><Br/>';
     table += '<table class="table table-striped table-bordered">';
     table += '<thead>';
     _(columns).each(function(val,key){
@@ -28,11 +27,18 @@ MachineList = Backbone.View.extend({
       _(columns).each(function(val){
         var contents = machine.attributes[val];
         contents = contents ? contents : 'n/a';
+        if(val=='vvpat'){
+          if(machine.attributes['equip_type'].indexOf('DRE') > -1){
+            contents = machine.attributes[val] ? 'Yes' : 'No';
+          } else {
+            contents = "N/A";
+          }
+        }
         table+='<Td>'+contents+'</td>';
       });
       table += '</tr>';
     });
-    table += '</tbody></table><metal style="display:none;">METAL!!! \\m/</metal<';
+    table += '</tbody></table>';
     $(this.el).html(table);
   }
   

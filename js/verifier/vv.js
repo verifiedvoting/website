@@ -58,14 +58,6 @@ $(function(){
     el: document.getElementById("info"),
   });
   
-    /*// search pagination
-  paginator = new PaginationView({
-    el: document.getElementById("machines-paginator"),
-    collection: machines
-  });*/
-  
-  
-  console.log('calling areas.fetch, expect reset callback on map');
   areas.fetch({data:{mode:'country'}});
   
 });

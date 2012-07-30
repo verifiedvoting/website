@@ -7,18 +7,33 @@ Map = Backbone.View.extend({
   },
   
   render : function(){  
-  console.log('we got a call');
- 
-    this.displayMap('country');
-    this.displayBack();
+    this.displayMap();
   },
   
   //clicking the map causes both machines and areas to change
-  click : function(clicked){   
-    console.log($(clicked));
+  click : function(element){
+    var cousub = $(this).attr("data-cousub");
+    var county = $(this).attr("data-county-fips");
+    var state = $(this).attr("data-state-fips");
+    var name = $(this).attr("data-name");
+    var code = $(this).attr("data-code");
+    
+    areas.currentName = name+" "+code;
+    
+    
+    if(county==null) {
+      $(".back").show();
+      areas.navigate({mode:'state',fips:state});
+      machines.fetch({data:{state:state}});
+      officials.fetch({data:{state:state}});
+    }  else {
+      machines.fetch({data:{county:county,state:state}});
+      officials.fetch({data:{state:state,county:county}});
+    }   
   },
   
   displayBack : function(){
+
     var width = this.svg.attr("width");
     var height = this.svg.attr("height");
     
@@ -37,13 +52,11 @@ Map = Backbone.View.extend({
     .attr("x",width-50)
     .attr("y",height-20);
     
-    $('.back').hide();
     $(".back").click(function(){areas.navigate({mode:'country'});});
   },
   
-  displayMap : function(what){
-    var width = this.svg.attr("width");
-    var height = this.svg.attr("height");
+  displayLoading : function(){
+        
     d3.select("#ui").append("svg:text")
     .text("Loading...")
     .attr("class","loading")
@@ -51,14 +64,19 @@ Map = Backbone.View.extend({
     .attr("style","font-weight:bold;font-size:16px;")
     .attr("x",width/2)
     .attr("y",height-20);
+    
+  },
   
-    //pre-hi
-    // this.collection.models  <-- 
-    divs = this.collection.models[0].attributes; //throw away the meta that comes in
+  displayMap : function(){
 
+    var width = this.svg.attr("width");
+    var height = this.svg.attr("height");
+
+    divs = this.collection.models[0].attributes; //there's only gonna be one big ole array
   
     $('.loading').remove();
     var warpY = 1.25;
+    
     
     $('#data').children().remove();
     
@@ -82,6 +100,8 @@ Map = Backbone.View.extend({
 
     scaleFactor *= .95; //shave off 5% total, we'll offset by the remaining difference in size later
 
+ 
+
     // our divs object looks like this:
     // divs.features[].geometry.coordinates[][][x,y]
     for(a in divs.features) {
@@ -100,7 +120,6 @@ Map = Backbone.View.extend({
           dude[c][1] *= warpY;
           dude[c][1] = height - ((dude[c][1]-globalY) * scaleFactor + 0.5*(height-scaleFactor*boxHeight));
           
-          
           if(b==0 && c==0){
             leftX = dude[c][0];
             topY = dude[c][1];
@@ -115,10 +134,11 @@ Map = Backbone.View.extend({
       
       var pol = d3.select("#data").append("svg:path").attr("d",str);
       pol.attr("data-cousub",divs.features[a].properties.COUSUB)
-      .attr("class","cousub")
       .attr("data-state-fips",divs.features[a].properties.STATE)
       .attr("data-name",divs.features[a].properties.NAME)
       .attr("title",divs.features[a].properties.NAME)
+      .attr("class","cousub "+divs.features[a].properties.CODE)
+      .attr("data-code",divs.features[a].properties.CODE)
       .attr("data-county-fips",divs.features[a].properties.COUNTY);
       
       //random color for us to see
@@ -128,27 +148,12 @@ Map = Backbone.View.extend({
         var mag = parseInt(5*(Math.sin( Math.PI*2.7*(leftX/width))+1)/2)/5.0;
         //pol.attr("stroke","rgb(255,255,255)");
         var rand = parseInt(3*Math.random()+9)/12.0;
-        pol.attr("fill","rgb("+parseInt(mag*80*Math.random()+90*rand)+","+parseInt(Math.random()*90+50+50*rand)+"," +parseInt(170+rand*70)+ ")");
+        //pol.attr("fill","rgb("+parseInt(mag*80*Math.random()+90*rand)+","+parseInt(Math.random()*90+50+50*rand)+"," +parseInt(170+rand*70)+ ")");
       }
     }
-      
-    //handle clicks and mouseover 
-    $("path.cousub").click(function(){
-      var cousub = $(this).attr("data-cousub");
-      var county = $(this).attr("data-county-fips");
-      var state = $(this).attr("data-state-fips");
-      var name = $(this).attr("data-name");
-      if(county==null) {
-        $(".back").show();
-        areas.navigate({mode:'state',fips:state});
-        machines.fetch({data:{state:state,mode:'machine'}});
-      }  else {
-        machines.fetch({data:{county:county,state:state,mode:'machine'}});
-        $('#info').html("Subdivision: "+name+'<br/>');
-      }     
-    });
-  
-    //hi
+    //route clicks back to our map.click handler 
+    $("path.cousub").click(this.click);
+    
   }
   
 });

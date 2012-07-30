@@ -4,9 +4,14 @@ AreaCollection = Backbone.Collection.extend({
   mode : 'country', //either country or state
 
   fips : 0,
+  
+  currentName : 'USA',
 
   url: '/api',
   
+  fetch : function(options){
+    return Backbone.Collection.prototype.fetch.call(this, options);
+  },
   
   parse: function(res,xhr){
   	if(res.error!=0){
@@ -21,14 +26,12 @@ AreaCollection = Backbone.Collection.extend({
 	navigate: function(opt){ 
   	if(opt.mode=='country'){
     	this.mode = opt.mode;
+    	map.displayLoading();
     	this.fetch({data:{mode:this.mode}});
-    	return;
-  	}
-
-    if(opt.mode=="state"){
+  	} else if(opt.mode=="state"){
       this.mode = "state";
       this.fips = opt.fips;
-      console.log('thing');
+      map.displayLoading();
       this.fetch({data:{mode:this.mode,state:this.fips}});
   	}
 	}

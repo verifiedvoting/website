@@ -9,6 +9,7 @@ Info = Backbone.View.extend({
     var str = '';
     _(this.collection.models).each(function(official){
       row = official.attributes;
+      str += areas.currentName+"Summary"
       str += row['title']+' - '+row['first_name'] +" "+ row['last_name']+"<br/>";
     });
     $(this.el).html(str);
