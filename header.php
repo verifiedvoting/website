@@ -56,6 +56,7 @@
 <link href="<?php echo get_template_directory_uri(); ?>/bootstrap/css/bootstrap.css" rel="stylesheet">
 <link href="<?php echo get_template_directory_uri(); ?>/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
 <link href="<?php echo get_template_directory_uri(); ?>/css/styles.css" rel="stylesheet">
+<link href="<?php echo get_template_directory_uri(); ?>/css/verifier.css" rel="stylesheet">
 
 <!-- HTML5 shim, for IE6-8 support of HTML elements -->
 <!--[if lt IE 9]>
