@@ -15,7 +15,7 @@ MachineList = Backbone.View.extend({
             'Vendor' : 'vendor',
       'Firmware Version' : 'firmware_version',
     };
-    var table = '<b style="font-size:20px;">'+areas.currentName+' 2012</b><Br/>';
+    var table = '<b style="font-size:20px;">'+areas.currentName+' General Election 2012</b><Br/>';
     table += '<table class="table table-striped table-bordered">';
     table += '<thead>';
     _(columns).each(function(val,key){

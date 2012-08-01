@@ -102,7 +102,6 @@ function import_sheet($csv, $table, $pass, $boolscrub){
     }
     $row = marry($column_names,$row);
     
-    
     $fips = get_fips($row['fips_code']);
     $row = filter_columns($row, $pass);
     $row['state_fips'] = $fips['state'];
@@ -111,15 +110,15 @@ function import_sheet($csv, $table, $pass, $boolscrub){
     $row = scrub_booleans($row, $boolscrub);
     
     $import_list .= $row['county']." - ".$row['equip_type']." row inserted<br/>";
-
     
-    //echo '<br/>Inserting row:<Br/>';
-    if($row['jurisdiction_type']=='State'){
+    if($fips['state']==6){
       print_r($row);
     }
+    echo "\n<Br/>";
+
     $result = mysql_insert_array($table,$row);
-    if($result) {
-      echo $result;
+    if($result['mysql_error']){
+      echo 'ERROR!!! '.$result['mysql_error']."\n<Br/>";
     }
     $count++;  
   }

@@ -104,7 +104,7 @@ get_header(); ?>
 </div>
 
 <div style="clear:both;"></div><br/>
-<div id="machines-paginator">paginator go here<div>
+<div id="machines-paginator"><div>
   <div id="list" style="display:block;width:990px;">
   Please select a county
   </div>

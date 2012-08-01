@@ -10,6 +10,8 @@ $outfile = fopen("usa.json",'w');
 $usa = json_decode($json);
 $feature = $usa->features[0];
 
+$x =0;
+
 foreach($usa->features as $feature){
   $state_fips = intval($feature->properties->STATE);
   $result =  mysql_query("SELECT * FROM machine WHERE state_fips LIKE $state_fips AND jurisdiction_type LIKE 'State'");// AND (pp_std LIKE 1 OR pp_acc LIKE 1)");
@@ -56,6 +58,8 @@ foreach($usa->features as $feature){
     echo "set ".$feature->properties->CODE." for ".$feature->properties->NAME." ".$state_fips."\n";
   }
   
+  $result =  mysql_query("SELECT * FROM official WHERE state_fips LIKE $state_fips AND jurisdiction_type LIKE 'State'");// AND (pp_std LIKE 1 OR pp_acc LIKE 1)");
+ 
   
 
   $x++;

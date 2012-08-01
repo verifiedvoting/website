@@ -18,7 +18,7 @@ Map = Backbone.View.extend({
     var name = $(this).attr("data-name");
     var code = $(this).attr("data-code");
     
-    areas.currentName = name+" "+code;
+    areas.currentName = name+" ";
     
     
     if(county==null) {
