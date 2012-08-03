@@ -8,9 +8,24 @@ Info = Backbone.View.extend({
   render: function(){
     var str = '';
     _(this.collection.models).each(function(official){
+      console.log(official);
       row = official.attributes;
-      str += areas.currentName+"Summary"
-      str += row['title']+' - '+row['first_name'] +" "+ row['last_name']+"<br/>";
+      str += "<b>"+areas.currentName+"Summary</b><br/>";
+      str += row['title']+'<br/>'+row['first_name'] +" "+ row['last_name']+"<br/>";
+      str += row['address_1']+"<br/>";
+      if(row['address_2'].length>0){
+      str += row['address_2']+"<br/>";
+      }
+      str += row['city']+" "+row['state']+" "+row['zipcode']+"<br/><br/>";
+      str += "Phone "+row['phone']+"<br/>";
+      str += "Fax "+row['fax']+"<br/>";
+      str += row['email']+"<br/>";
+      var web = row['website'].slice(7,30);
+      if(row['website'].length > 30){ 
+        web += "..."
+      }
+      str += '<a href="'+row['website']+'">'+"Website"+"</a><br/>";
+      
     });
     $(this.el).html(str);
   }
