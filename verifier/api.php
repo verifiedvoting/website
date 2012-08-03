@@ -29,14 +29,15 @@ if(! $mode = $_GET['mode']) {
 if($mode=='state'){
   $state = $_GET['state'];
   if(!$state){
-      header(' ',true,501);
+    header(' ',true,501);
     return_json(1,'please specify a state');
   }
   
-  $query = mysql_escape_string("SELECT * FROM state WHERE state_fips LIKE $state");
+  $query = mysql_escape_string("SELECT * FROM state WHERE st_fips LIKE $state");
   $resource = mysql_query($query);
   
   if(mysql_error()){
+    header(' ',true,501);
     return_json(1,mysql_error());
   } else if(mysql_num_rows($resource)>0) {
     $data =  mysql_fetch_assoc($resource);

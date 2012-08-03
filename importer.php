@@ -87,18 +87,20 @@ function get_fips($number){
 //array of fieldnames to keep
 //array of fieldnames that need to be scrubbed as bools
 function import_sheet($csv, $table, $pass, $boolscrub){
-  $count = 0;
+  $count = 2; //first row is just colum names, so data rows start @ 2
 	$column_names = innie(scrub_names(fgetcsv($csv)));	//first row contains the column names instead of data
 	$import_list = '';
 	backup_and_drop($table);
   while($row = fgetcsv($csv)){
-    
     if(count($column_names) != count($row)){
-      echo '<br/><br/><b>CSV row length issue while matching column names with row. Failed on row</b>';
-      echo '<br/>Column name columns: '.count($column_names)." | row columns: ".count($row);
-      print_r($column_names);
-      print_r($row);
-      break;
+      echo '<b>ERROR row length issue, row #'.$count.', Check row for commas / syntax errors:</b>';
+      $fips = get_fips($row[$column_names['fips_code']]);
+      echo '<br/>'." State ".$row[$column_names['state']] ."  FIPS State ".$fips['state'].' - county '.$fips['county'].' - Div '. $fips['division']."<br/>";
+      echo "row has ".count($row)." columns, CSV header has ".count($column_names)." column names";
+      echo "<br/><br/>";
+     // print_r($row);
+      continue;
+      //break;
     }
     $row = marry($column_names,$row);
     
@@ -111,11 +113,6 @@ function import_sheet($csv, $table, $pass, $boolscrub){
     
     $import_list .= $row['county']." - ".$row['equip_type']." row inserted<br/>";
     
-    if($fips['state']==6){
-      print_r($row);
-    }
-    echo "\n<Br/>";
-
     $result = mysql_insert_array($table,$row);
     if($result['mysql_error']){
       echo 'ERROR!!! '.$result['mysql_error']."\n<Br/>";
