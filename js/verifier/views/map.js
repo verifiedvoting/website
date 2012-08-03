@@ -2,7 +2,7 @@ Map = Backbone.View.extend({
   
   initialize : function(o){
     _.bindAll(this,'render','displayBack','displayMap'); //bind our callback functions to the real this
-    this.collection.bind('reset',this.render);
+    this.collection.bind('reset',this.render, this.displayMap, this.displayBack);
     this.svg = o.svg;
   },
   
@@ -152,6 +152,10 @@ Map = Backbone.View.extend({
       }
     }
     //route clicks back to our map.click handler 
+    if(areas.mode=='country'){
+    } else {
+      this.displayBack();
+    }
     $("path.cousub").click(this.click);
     
   }

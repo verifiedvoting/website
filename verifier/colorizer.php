@@ -4,7 +4,7 @@ include_once('connection.php');
 include_once('functions.php');
 
 
-$json = file_get_contents("usa_backup.json");
+$json = file_get_contents("usa_moved_backup.json");
 $outfile = fopen("usa.json",'w');
 
 $usa = json_decode($json);

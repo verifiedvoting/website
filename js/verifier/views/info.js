@@ -8,7 +8,6 @@ Info = Backbone.View.extend({
   render: function(){
     var str = '';
     _(this.collection.models).each(function(official){
-      console.log(official);
       row = official.attributes;
       str += "<b>"+areas.currentName+"Summary</b><br/>";
       str += row['title']+'<br/>'+row['first_name'] +" "+ row['last_name']+"<br/>";
