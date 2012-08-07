@@ -3,6 +3,7 @@ MachineList = Backbone.View.extend({
   initialize: function(o){
     _.bindAll(this,'render');
     this.collection.bind('reset', this.render);
+    
   },
   
   render: function(){
@@ -22,6 +23,12 @@ MachineList = Backbone.View.extend({
       table += '<th>'+key+'</th>';
     });
     table += '</thead><tbody>';
+    /*testing out filtering colections
+    var filtered = _.filter(this.collection.models,function(machine){return machine.attributes['ev_std']==1;});
+    console.log(this.collection.models.length);
+    console.log(filtered.length);
+    console.log(filtered);
+    */
     _(this.collection.models).each(function(machine){
       table += '<tr>';
       _(columns).each(function(val){

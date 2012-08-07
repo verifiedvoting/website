@@ -209,7 +209,7 @@ Map = Backbone.View.extend({
       }
     } 
     
-    console.log(bounds);
+    //console.log(bounds);
     //route clicks back to our map.click handler 
     if(areas.mode=='country'){
     } else {

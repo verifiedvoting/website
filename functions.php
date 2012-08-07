@@ -647,3 +647,77 @@ function list_posts($custom_field, $num){
 		echo '</div></div>';
 	}
 }
+
+add_filter( 'manage_edit-page_columns', 'site_column_register' );
+add_action( 'manage_pages_custom_column', 'site_column_display', 10, 2 );
+
+
+function site_column_register( $columns ) {
+	$columns['site'] = 'Site';
+	
+	/** Remove a Author, Comments Columns **/
+	unset(
+		$columns['author'],
+		$columns['comments']
+	);
+	
+	return $columns;
+}
+
+// Display the column content
+function site_column_display( $column_name, $post_id ) {
+	if ( 'site' != $column_name )
+		return;
+ 
+	$site = get_post_meta($post_id, 'which_site', true);
+	$site_list = implode(", ",$site);
+	echo $site_list;
+}
+
+add_action( 'quick_edit_custom_box', 'site_quick_edit', 10, 2 );
+
+function site_quick_edit( $column_name, $post_type ) {
+    static $printNonce = TRUE;
+    if ( $printNonce ) {
+        $printNonce = FALSE;
+        wp_nonce_field( plugin_basename( __FILE__ ), 'book_edit_nonce' );
+    }
+
+    ?>
+        <legend><em>Site</em></legend>
+          <input id="vvo" name="vvo-site" type="checkbox" />
+          <label for="vvo">VerifiedVoting.org</label>
+          <input id="vvf" name="vvf-site" type="checkbox" />
+          <label for="vvf">VerifiedVotingFoundation.org</label>
+      </div>
+    </fieldset>
+    <?php
+}
+
+add_action( 'save_post', 'save_book_meta' );
+
+function save_book_meta( $post_id ) {
+    /* in production code, $slug should be set only once in the plugin,
+       preferably as a class property, rather than in each function that needs it.
+     */
+    $slug = 'page';
+    if ( $slug !== $_POST['post_type'] ) {
+        return;
+    }
+    if ( !current_user_can( 'edit_post', $post_id ) ) {
+        return;
+    }
+    $_POST += array("{$slug}_edit_nonce" => '');
+    if ( !wp_verify_nonce( $_POST["{$slug}_edit_nonce"],
+                           plugin_basename( __FILE__ ) ) )
+    {
+        return;
+    }
+
+    # checkboxes are submitted if checked, absent if not
+    if ( isset( $_REQUEST['site'] ) ) {
+        update_post_meta($post_id, 'site', TRUE);
+    } else {
+        update_post_meta($post_id, 'site', FALSE);
+    }
+}
