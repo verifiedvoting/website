@@ -95,7 +95,7 @@ get_header(); ?>
 				<article>			
 
   		<div id="body" >
-        <div id="info" class="sidebar-nav well" style="float:right;width:190px;padding:10px;margin:10px;">
+        <div id="info" class="sidebar-nav well" style="word-wrap:break-word;float:right;width:190px;padding:10px;margin:10px;">
           
         </div>
       </div>
@@ -110,6 +110,7 @@ get_header(); ?>
   </div>
   
   <div style="margin:20px;color:#555;">Developer notes :<br/>California displays county subdivisions this was the boundry data I tested with, will remedy with count-level boundaries.<br/>Counties do not yet display meta information such as election administrator or breakdown of voters. Working on having these worksheets imported by early next week.</div>
+  <div id="debug"></div>
   <div style="clear:both;"></div><Br>
   <div id="map"></div>
 			</div><!-- #content --><br/>

@@ -2,7 +2,7 @@ Map = Backbone.View.extend({
   
   initialize : function(o){
     _.bindAll(this,'render','displayBack','displayMap'); //bind our callback functions to the real this
-    this.collection.bind('reset',this.render, this.displayMap, this.displayBack);
+    this.collection.bind('reset',this.render);
     this.svg = o.svg;
   },
   
@@ -19,7 +19,6 @@ Map = Backbone.View.extend({
     var code = $(this).attr("data-code");
     
     areas.currentName = name+" ";
-    
     
     if(county==null) {
       $(".back").show();
@@ -38,33 +37,31 @@ Map = Backbone.View.extend({
     var height = this.svg.attr("height");
     
     d3.select("#ui").append("svg:rect")
-    .attr("x",width-85)
-    .attr("y",height-40)
-    .attr("width",70)
-    .attr("class","back")
-    .attr("height",30)
-    .attr("style","fill:#eee;");
+      .attr("x",width-85)
+      .attr("y",height-40)
+      .attr("width",70)
+      .attr("class","back")
+      .attr("height",30)
+      .attr("style","fill:#eee;");
     
     d3.select("#ui").append("svg:text")
-    .text("BACK")
-    .attr("class","button back")
-    .attr("text-anchor","middle")
-    .attr("x",width-50)
-    .attr("y",height-20);
+      .text("BACK")
+      .attr("class","button back")
+      .attr("text-anchor","middle")
+      .attr("x",width-50)
+      .attr("y",height-20);
     
     $(".back").click(function(){areas.navigate({mode:'country'});});
   },
   
   displayLoading : function(){
-        
     d3.select("#ui").append("svg:text")
-    .text("Loading...")
-    .attr("class","loading")
-    .attr("text-anchor","middle")
-    .attr("style","font-weight:bold;font-size:16px;")
-    .attr("x",width/2)
-    .attr("y",height-20);
-    
+      .text("Loading...")
+      .attr("class","loading")
+      .attr("text-anchor","middle")
+      .attr("style","font-weight:bold;font-size:16px;")
+      .attr("x",width/2)
+      .attr("y",height-20);
   },
   
   displayMap : function(){
@@ -100,14 +97,60 @@ Map = Backbone.View.extend({
 
     scaleFactor *= .95; //shave off 5% total, we'll offset by the remaining difference in size later
 
- 
-
     // our divs object looks like this:
     // divs.features[].geometry.coordinates[][][x,y]
+    
+    
+    /* FUN TIME MAP MANIPULATION STUFF!
+    
+    var alaska = _(divs.features).find(function(guy){ return guy.properties.NAME=='Alaska'});
+    for(b in alaska.geometry.coordinates){
+      var dude = alaska.geometry.coordinates[b];
+      for(c in dude){
+        dude[c][0] *= .35;
+        dude[c][1] *= .5;
+        dude[c][0] -= 60;
+        dude[c][1] -= 6;
+      }
+    }
+    
+    var hawaii = _(divs.features).find(function(guy){ return guy.properties.NAME=='Hawaii'});
+    for(b in hawaii.geometry.coordinates){
+      var dude = hawaii.geometry.coordinates[b];
+      for(c in dude){
+        dude[c][0] += 30;
+        dude[c][1] += 10;
+      }
+    }
+    
+    var puerto = _(divs.features).find(function(guy){ return guy.properties.NAME=='Puerto Rico'});
+    for(b in puerto.geometry.coordinates){
+      var dude = puerto.geometry.coordinates[b];
+      for(c in dude){
+        dude[c][0] -= 7;
+        dude[c][1] += 8;
+      }
+    }
+    */
+    
+    
+    //GIVE US THE JSON BACK
+    var blob = JSON.stringify(divs);
+    $('#debug').html('<textarea cols="60" rows="5">' + blob + '</textarea>');
+    
+
+ 
+
+    var bounds = [0,200,-200,0];
+    
+    
     for(a in divs.features) {
       //start a string of points for our path data
       var str = "";
       var leftX = 0;
+      
+      //console.log(divs.features[a]);
+
       var topY = 0;
       for(b in divs.features[a].geometry.coordinates) {
         var dude = divs.features[a].geometry.coordinates[b];
@@ -115,6 +158,19 @@ Map = Backbone.View.extend({
         //BUILDING A PATH STRING str
         str +="M";//each poly within the path needs to start with a M move command
         for(c in dude){
+          if(dude[c][0] < bounds[0]){
+            bounds[0] = dude[c][0];
+          }
+          if(dude[c][0] > bounds[2]){
+            bounds[2] = dude[c][0];
+          }
+          if(dude[c][1] < bounds[1]){
+            bounds[1] = dude[c][1];
+          }
+          if(dude[c][1] > bounds[3]){
+            bounds[3] = dude[c][1];
+          }
+          //EACH DUDE IS A SINGLE POINT ON A POLY
           // offset the points, scale them to screen space, add 1/2 the difference between scaled BB and screen
           dude[c][0] = (dude[c][0]-globalX) * scaleFactor + 0.5*(width-scaleFactor*boxWidth);
           dude[c][1] *= warpY;
@@ -130,6 +186,7 @@ Map = Backbone.View.extend({
           str += dude[c][0]+" "+dude[c][1]+" ";
         }
       }
+      
       str += " Z";//Z for close shape, so we can fill the polys
       
       var pol = d3.select("#data").append("svg:path").attr("d",str);
@@ -150,7 +207,9 @@ Map = Backbone.View.extend({
         var rand = parseInt(3*Math.random()+9)/12.0;
         //pol.attr("fill","rgb("+parseInt(mag*80*Math.random()+90*rand)+","+parseInt(Math.random()*90+50+50*rand)+"," +parseInt(170+rand*70)+ ")");
       }
-    }
+    } 
+    
+    console.log(bounds);
     //route clicks back to our map.click handler 
     if(areas.mode=='country'){
     } else {
