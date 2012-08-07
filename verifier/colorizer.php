@@ -24,12 +24,12 @@ foreach($usa->features as $feature){
     //continue;
   }
   
-  if($state_fips ==1){
+  if($state_fips ==23){
     print_r($rows);
   }
   $summary = flatten_array($rows);
   
-  if($state_fips==22){
+  if($state_fips==23){
     print_r($summary);
   }
 
@@ -49,11 +49,7 @@ foreach($usa->features as $feature){
     
   if(!isset($feature->properties->CODE)){
     echo 'wasnt set - '.$feature->properties->NAME." - ".$state_fips."\n";
-    print_r($summary);
     $feature->properties->CODE = 'none';
-    if($state_fips==1){
-      print_r($summary);
-    }
   } else {
     echo "set ".$feature->properties->CODE." for ".$feature->properties->NAME." ".$state_fips."\n";
   }
@@ -70,10 +66,6 @@ $string = json_encode($usa);
 fwrite($outfile,$string);
 fclose($outfile);
 
-//print_r($row);
-// }
-
-//print_r($usa->features[0]->properties->STATE); //'properties']['STATE']);
 
 print("\n");
 

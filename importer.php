@@ -48,10 +48,10 @@ if(count($_POST)>0) {
     
     if($table=='machine'){
       $boolscrub = array(
-        'pbvs','dre_pushbutton','dre_touchscreen','dre_dial','vvpat','dre_vvpat','dre_no_vvpat','dre_x_vvpat','bmd','tbad','punchcard','hcpb','vote_by_mail', 'pp_std', 'pp_std_pc', 'pp_std_cc', 'ev_std', 'ev_dis');
+        'pbvs','dre_pushbutton','dre_touchscreen','dre_dial','vvpat','dre_vvpat','dre_no_vvpat','dre_x_vvpat','bmd','tbad','punchcard','hcpb','vote_by_mail', 'pp_std', 'pp_std_pc', 'pp_std_cc', 'ev_std', 'ev_acc','abs_ballots', 'prov_ballots');
       $pass = explode(
         ' ',
-        'year state county division jurisdiction_type corrected_fips state_fips city_fips division_fips pbvs dre_vvpat dre_no_vvpat dre_x_vvpat dre_pushbutton dre_touchscreen dre_dial vvpat bmd tbad punchcard hcpb vote_by_mail equip_type vendor make model firmware_version software_version quantity pp_std pp_std_pc pp_std_cc pp_dis pp_dis_pc pp_dis_cc ev_std ev_dis'
+        'year state county division jurisdiction_type corrected_fips state_fips city_fips division_fips pbvs dre_vvpat dre_no_vvpat dre_x_vvpat dre_pushbutton dre_touchscreen dre_dial vvpat bmd tbad punchcard hcpb vote_by_mail equip_type vendor make model firmware_version software_version quantity pp_std pp_std_pc pp_std_cc pp_dis pp_dis_pc pp_dis_cc ev_std ev_acc abs_ballots prov_ballots'
       );
      import_sheet($fref,$table,$pass,$boolscrub);   
     } else if($table=='official'){
