@@ -3,7 +3,7 @@ MachineList = Backbone.View.extend({
   initialize: function(o){
     _.bindAll(this,'render');
     this.collection.bind('reset', this.render);
-    
+    this.filters = o.filters;
   },
   
   render: function(){
@@ -23,13 +23,23 @@ MachineList = Backbone.View.extend({
       table += '<th>'+key+'</th>';
     });
     table += '</thead><tbody>';
-    /*testing out filtering colections
-    var filtered = _.filter(this.collection.models,function(machine){return machine.attributes['ev_std']==1;});
-    console.log(this.collection.models.length);
-    console.log(filtered.length);
-    console.log(filtered);
-    */
-    _(this.collection.models).each(function(machine){
+
+    //scope hack, can't see same 'this' inside of underscore filter anon funct
+    var myFilters = this.filters ? this.filters : [];
+    var filtered = _.filter(this.collection.models,function(machine){
+      if(myFilters.length>0){//only filter if we're handed filters
+        for(i in myFilters){
+          if(machine.attributes[myFilters[i]]==1){
+            return true;
+          }
+        }
+      } else {
+        return true;
+      }
+      return false;
+    });
+    
+    _(filtered).each(function(machine){
       table += '<tr>';
       _(columns).each(function(val){
         var contents = machine.attributes[val];

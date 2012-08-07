@@ -39,10 +39,11 @@ $(function(){
   });
   
   machines = new MachineCollection();
-  machineList = new MachineList({
+  pollingMachines = new MachineList({
     collection: machines,
     el: document.getElementById("list"),
-    template: JST['list-view']
+    template: JST['list-view'],
+    filters: ['pp_std','pp_acc']
   });
   
   areas = new AreaCollection();
