@@ -105,11 +105,13 @@ get_header(); ?>
 
 <div style="clear:both;"></div><br/>
 <div id="machines-paginator"><div>
-  <div id="list" style="display:block;width:990px;">
-  Please select a county
+  <div id="pp-list" style="display:block;width:990px;">
+    Please select a county
+  </div>
+  <div id="ev-list" style="display:block;width:990px;">
   </div>
   
-  <div style="margin:20px;color:#555;">Developer notes :<br/>California displays county subdivisions this was the boundry data I tested with, will remedy with count-level boundaries.<br/>Counties do not yet display meta information such as election administrator or breakdown of voters. Working on having these worksheets imported by early next week.</div>
+  <div style="margin:20px;color:#555;"></div>
   <div id="debug"></div>
   <div style="clear:both;"></div><Br>
   <div id="map"></div>

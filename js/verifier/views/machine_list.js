@@ -4,6 +4,7 @@ MachineList = Backbone.View.extend({
     _.bindAll(this,'render');
     this.collection.bind('reset', this.render);
     this.filters = o.filters;
+    this.name = o.name;
   },
   
   render: function(){
@@ -16,7 +17,7 @@ MachineList = Backbone.View.extend({
             'Vendor' : 'vendor',
       'Firmware Version' : 'firmware_version',
     };
-    var table = '<b style="font-size:20px;">'+areas.currentName+' General Election 2012</b><Br/>';
+    var table = '<b style="font-size:20px;">'+this.name+'</b><Br/>';
     table += '<table class="table table-striped table-bordered">';
     table += '<thead>';
     _(columns).each(function(val,key){

@@ -136,10 +136,7 @@ Map = Backbone.View.extend({
     
     //GIVE US THE JSON BACK
     var blob = JSON.stringify(divs);
-    $('#debug').html('<textarea cols="60" rows="5">' + blob + '</textarea>');
-    
-
- 
+    //$('#debug').html('<textarea cols="60" rows="5">' + blob + '</textarea>');
 
     var bounds = [0,200,-200,0];
     

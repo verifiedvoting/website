@@ -41,9 +41,18 @@ $(function(){
   machines = new MachineCollection();
   pollingMachines = new MachineList({
     collection: machines,
-    el: document.getElementById("list"),
+    el: document.getElementById("pp-list"),
     template: JST['list-view'],
-    filters: ['pp_std','pp_acc']
+    filters: ['pp_std','pp_acc'],
+    name : 'Polling Place Equipment'
+  });
+  
+  earlyMachines = new MachineList({
+    collection: machines,
+    el: document.getElementById("ev-list"),
+    template: JST['list-view'],
+    filters: ['ev_std','ev_acc'],
+    name : 'Early Voting Equipment'
   });
   
   areas = new AreaCollection();
