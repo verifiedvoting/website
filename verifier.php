@@ -110,6 +110,10 @@ get_header(); ?>
   </div>
   <div id="ev-list" style="display:block;width:990px;">
   </div>
+  <div id="abs-list" style="display:block;width:990px;">
+  </div>
+  <div id="pro-list" style="display:block;width:990px;">
+  </div>
   
   <div style="margin:20px;color:#555;"></div>
   <div id="debug"></div>

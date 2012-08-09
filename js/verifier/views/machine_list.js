@@ -6,6 +6,7 @@ MachineList = Backbone.View.extend({
     this.filters = o.filters;
     this.name = o.name;
   },
+
   
   render: function(){
     //generate a table based on these column name keys
@@ -14,23 +15,17 @@ MachineList = Backbone.View.extend({
       'Model' : 'model',
       'Type of Equipment':'equip_type',
       'VVPAT' : 'vvpat',
-            'Vendor' : 'vendor',
-      'Firmware Version' : 'firmware_version',
+      'Vendor' : 'vendor'
     };
-    var table = '<b style="font-size:20px;">'+this.name+'</b><Br/>';
-    table += '<table class="table table-striped table-bordered">';
-    table += '<thead>';
-    _(columns).each(function(val,key){
-      table += '<th>'+key+'</th>';
-    });
-    table += '</thead><tbody>';
-
+    var title = '<b style="font-size:20px;">'+this.name+'</b><Br/>';
+    var table = '';
+    
     //scope hack, can't see same 'this' inside of underscore filter anon funct
-    var myFilters = this.filters ? this.filters : [];
+
     var filtered = _.filter(this.collection.models,function(machine){
-      if(myFilters.length>0){//only filter if we're handed filters
-        for(i in myFilters){
-          if(machine.attributes[myFilters[i]]==1){
+      if(this.filters.length>0){//only filter if we're handed filters
+        for(i in this.filters){
+          if(machine.attributes[this.filters[i]]==1){
             return true;
           }
         }
@@ -38,27 +33,65 @@ MachineList = Backbone.View.extend({
         return true;
       }
       return false;
-    });
+    },this);
     
-    _(filtered).each(function(machine){
-      table += '<tr>';
-      _(columns).each(function(val){
-        var contents = machine.attributes[val];
-        contents = contents ? contents : 'n/a';
-        if(val=='vvpat'){
-          if(machine.attributes['equip_type'].indexOf('DRE') > -1){
-            contents = machine.attributes[val] ? 'Yes' : 'No';
-          } else {
-            contents = "N/A";
-          }
-        }
-        table+='<Td>'+contents+'</td>';
+    
+    if(filtered.length>0){
+      table += '<table class="table table-striped table-bordered">';
+      table += '<thead>';
+      _(columns).each(function(val,key){
+        table += '<th>'+key+'</th>';
       });
-      table += '</tr>';
-    });
-    table += '</tbody></table>';
-    $(this.el).html(table);
-  }
+      table += '</thead><tbody>';
+      
+      filtered = this.unique(filtered);
+      
+      _(filtered).each(function(machine){
+        table += '<tr>';
+        _(columns).each(function(val){
+          var contents = machine.attributes[val];
+          contents = contents ? contents : 'n/a';
+          if(val=='vvpat'){
+            if(machine.attributes['equip_type'].indexOf('DRE') > -1){
+              contents = machine.attributes[val] ? 'Yes' : 'No';
+            } else {
+              contents = "N/A";
+            }
+          }
+          table+='<Td>'+contents+'</td>';
+        });
+        table += '</tr>';
+      });
+      table += '</tbody></table>';
+    } else {
+      title += 'No information available<br/><Br/>';
+    }
+    $(this.el).html(title+table);
+  },
   
+  //returns set of rows with unique Type of Equipment
+  unique : function(machines){
+    var out = [];
+    
+    _(machines).each(function(machine){
+      //test to see if in out, if not add it
+      var test = _(out).find(function(guy){
+        return guy.attributes['equip_type']==machine.attributes['equip_type'];
+      });
+      if(!test){
+        out.push(machine);
+      }
+      
+    });
+    return out;
+  }
 
 });
+
+
+
+
+
+
+
+

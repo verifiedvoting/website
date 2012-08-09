@@ -33,7 +33,7 @@ $(function(){
       
 
   //BACKBONE BOOT
-    // compile all available templates using _.template
+  // compile all available templates using _.template
   $('.jst').each(function(index,el){
     JST[el.id] = _.template($(el).text());
   });
@@ -54,6 +54,23 @@ $(function(){
     filters: ['ev_std','ev_acc'],
     name : 'Early Voting Equipment'
   });
+  
+  absenteeMachines = new MachineList({
+    collection: machines,
+    el: document.getElementById("abs-list"),
+    template: JST['list-view'],
+    filters: ['abs_ballots'],
+    name : 'Absentee Ballot Tabulation'
+  });
+  
+  provisionalMachines = new MachineList({
+    collection: machines,
+    el: document.getElementById("pro-list"),
+    template: JST['list-view'],
+    filters: ['prov_ballots'],
+    name : 'Provisional Ballot Tabulation'
+  });
+  
   
   areas = new AreaCollection();
   map = new Map({
