@@ -30,7 +30,7 @@ if($mode=='state'){
     return_json(1,'please specify a state');
   }
   
-  $query = mysql_escape_string("SELECT * FROM state WHERE st_fips LIKE $state");
+  $query = mysql_escape_string("SELECT * FROM state WHERE state_fips LIKE $state");
   $resource = mysql_query($query);
   
   if(mysql_error()){
