@@ -24,31 +24,27 @@ foreach($usa->features as $feature){
     //continue;
   }
   
-  if($state_fips ==23){
-    print_r($rows);
-  }
-  $summary = flatten_array($rows);
-  
-  if($state_fips==23){
-    print_r($summary);
-  }
 
-  if($summary['pbvs'] && !$summary['dre_vvpat'] && !$summary['dre_no_vvpat'] && !$summary['dre_x_vvpat']){
+  $summary = flatten_array($rows);
+
+  if($summary['pbvs'] && !$summary['vvpat'] && !$summary['dre_x_vvpat']){
     $feature->properties->CODE = 'pbvs';
-  } else if($summary['pbvs'] && $summary['dre_vvpat'] && !$summary['dre_no_vvpat'] && !$summary['dre_x_vvpat']){
+  } else if($summary['pbvs'] && $summary['vvpat']&& !$summary['dre_x_vvpat']){
     $feature->properties->CODE = 'mpbv';
-  } else if($summary['pbvs'] && $summary['dre_no_vvpat'] && !$summary['dre_vvpat'] && !$summary['dre_x_vvpat']){
+  } else if($summary['pbvs'] && !$summary['vvpat'] && !$summary['dre_x_vvpat']){
     $feature->properties->CODE = 'mpbn';
-  } else if($summary['pbvs'] && $summary['dre_x_vvpat'] && !$summary['dre_vvpat'] && !$summary['dre_no_vvpat']){
+  } else if($summary['pbvs'] && $summary['dre_x_vvpat'] && !$summary['vvpat']){
     $feature->properties->CODE = 'mpdx';
-  } else if($summary['dre_vvpat'] && !$summary['pbvs'] && !$summary['dre_no_vvpat']){
+  } else if($summary['vvpat'] && !$summary['pbvs'] ){
     $feature->properties->CODE = 'drev';
-  } else if ($summary['dre_no_vvpat']){
+  } else if (!$summary['vvpat']){
     $feature->properties->CODE = 'dren';
   }
     
   if(!isset($feature->properties->CODE)){
     echo 'wasnt set - '.$feature->properties->NAME." - ".$state_fips."\n";
+    print_r($summary);
+    echo "\n\n";
     $feature->properties->CODE = 'none';
   } else {
     echo "set ".$feature->properties->CODE." for ".$feature->properties->NAME." ".$state_fips."\n";
