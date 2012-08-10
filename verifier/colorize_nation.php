@@ -24,9 +24,7 @@ foreach($usa->features as $feature){
     //continue;
   }
   
-
   $summary = flatten_array($rows);
-
   if($summary['pbvs'] && !$summary['vvpat'] && !$summary['dre_x_vvpat']){
     $feature->properties->CODE = 'pbvs';
   } else if($summary['pbvs'] && $summary['vvpat']&& !$summary['dre_x_vvpat']){
@@ -51,8 +49,6 @@ foreach($usa->features as $feature){
   }
   
   $result =  mysql_query("SELECT * FROM official WHERE state_fips LIKE $state_fips AND jurisdiction_type LIKE 'State'");// AND (pp_std LIKE 1 OR pp_acc LIKE 1)");
- 
-  
 
   $x++;
 }
