@@ -48,15 +48,15 @@ if(count($_POST)>0) {
     
     if($table=='machine'){
       $boolscrub = array(
-        'pbvs','dre_pushbutton','dre_touchscreen','dre_dial','vvpat','dre_vvpat','dre_no_vvpat','dre_x_vvpat','bmd','tbad','punchcard','hcpb','vote_by_mail', 'pp_std', 'pp_std_pc', 'pp_std_cc', 'ev_std', 'ev_acc','abs_ballots', 'prov_ballots');
+'pbvs','dre_pushbutton','dre_touchscreen','dre_dial','vvpat','dre','dre_x_vvpat','bmd','tbad','punchcard','hcpb','vote_by_mail', 'pp_std', 'pp_std_pc', 'pp_std_cc', 'ev_std', 'ev_acc','abs_ballots', 'prov_ballots');
       $pass = explode(
         ' ',
-        'year state county division jurisdiction_type corrected_fips state_fips city_fips division_fips pbvs dre_vvpat dre_no_vvpat dre_x_vvpat dre_pushbutton dre_touchscreen dre_dial vvpat bmd tbad punchcard hcpb vote_by_mail equip_type vendor make model firmware_version software_version quantity pp_std pp_std_pc pp_std_cc pp_dis pp_dis_pc pp_dis_cc ev_std ev_acc abs_ballots prov_ballots'
+        'year state county division jurisdiction_type corrected_fips state_fips city_fips division_fips pbvs dre_vvpat dre_x_vvpat dre_pushbutton dre_touchscreen dre_dial vvpat dre bmd tbad punchcard hcpb vote_by_mail equip_type vendor make model firmware_version software_version quantity pp_std pp_std_pc pp_std_cc pp_dis pp_dis_pc pp_dis_cc ev_std ev_acc abs_ballots prov_ballots'
       );
      import_sheet($fref,$table,$pass,$boolscrub);   
     } else if($table=='official'){
       $bools = explode(' ','nation_map state_map county_map audit');
-      $pass = explode(' ','state county division jurisdiction_type nation_map state_map county_map precincts state_fips county_fips div_fips current_reg_voters 2010_reg_voters 2010_turnout 2010_pp_voters 2010_uocava 2010_abs 2010_prov 2010_ev 2010_vbm 2012_all_mail_ballot audit position last_name first_name title address_1 address_2 city zipcode phone fax email website');
+      $pass = explode(' ','state county division jurisdiction_type nation_map state_map county_map precincts state_fips county_fips div_fips current_reg_voters 2010_reg_voters 2010_turnout pp_system 2010_pp_voters 2010_uocava 2010_abs 2010_prov 2010_ev 2010_vbm 2012_all_mail_ballot audit position last_name first_name title address_1 address_2 city zipcode phone fax email website');
       import_sheet($fref,$table,$pass,$bools);
     }
    

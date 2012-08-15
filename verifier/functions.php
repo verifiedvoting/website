@@ -64,10 +64,10 @@ function filter_columns($in, $names){
 }
 
 function backup_and_drop($table){
-  //make this actually back up...in the future
-  if(!$table){
-    $table = 'machine';
-  }
+  $dumpfile = "/home/radicaldesigns/verified_wp/wp-content/themes/verified_voting/verifier/importer_backups/".$table . "_" . date("Y-m-d_H-i-s") . ".sql";
+  //echo "DEBUG: ABOUT TO SAVE A FILE OUT AS $dumpfile <br/>";
+  $dump_result = exec("/usr/bin/mysqldump --opt --host=$server --user=$user --password=$pass $dbname $table > $dumpfile");
+  //echo "RESULT " . $dump_result . "<br/><br/>";
   mysql_query("TRUNCATE TABLE $table");//DROP THEM
 }
 
@@ -97,13 +97,14 @@ function mysql_insert_array($table, $data, $exclude = array()) {
 }
 
 function flatten_array($rows){
-  $booleans = array('pbvs','dre_pushbutton','dre_touchscreen','dre_dial','vvpat','dre_vvpat','dre_no_vvpat','dre_x_vvpat','bmd','tbad','punchcard','hcpb','vote_by_mail', 'pp_std', 'pp_std_pc', 'pp_std_cc', 'ev_std', 'ev_dis');
+  $booleans = array('pbvs','dre','dre_pushbutton','dre_touchscreen','dre_dial','vvpat','dre_vvpat','dre_no_vvpat','dre_x_vvpat','bmd','tbad','punchcard','hcpb','vote_by_mail', 'pp_std', 'pp_std_pc', 'pp_std_cc', 'ev_std', 'ev_dis');
   
   $summary = array();
   foreach($booleans as $key){
     $summary[$key] = false;
   }
   
+
   foreach($booleans as $key){
     foreach($rows as $row){
       if(isset($row[$key]) && $row[$key] != false){
