@@ -6,8 +6,17 @@ AreaCollection = Backbone.Collection.extend({
   fips : 0,
   
   currentName : 'USA',
+  
+  state : '',
+  
+  stateFips : 0,
+  
+  county : '',
+  
+  countyFips : 0,
 
   url: '/api',
+  
   
   fetch : function(options){
     return Backbone.Collection.prototype.fetch.call(this, options);
@@ -30,9 +39,14 @@ AreaCollection = Backbone.Collection.extend({
     	this.fetch({data:{mode:this.mode}});
   	} else if(opt.mode=="state"){
       this.mode = "state";
+      this.stateFips = opt.fips;
       this.fips = opt.fips;
       map.displayLoading();
+      this.breadcrumb = 'Verifier - '+this.currentName;
       this.fetch({data:{mode:this.mode,state:this.fips}});
+  	} else if(opt.mode=='county'){
+      this.mode = "county";
+      this.countyFips = opt.fips;
   	}
 	}
   

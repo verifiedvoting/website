@@ -69,15 +69,16 @@ if($mode=='state'){
     while($get = mysql_fetch_assoc($resource)){
       $data[] = $get;
     }
+    
     $resource = mysql_query($base_query.' AND (ev_std=1 OR ev_acc=1) LIMIT 4');
     while($get = mysql_fetch_assoc($resource)){
       $data[] = $get;
     }
-    $resource = mysql_query($base_query.' AND (abs_ballot) LIMIT 4');
+    $resource = mysql_query($base_query.' AND (abs_ballots=1) LIMIT 4');
     while($get = mysql_fetch_assoc($resource)){
       $data[] = $get;
     }
-    $resource = mysql_query($base_query.' AND (prov_ballot) LIMIT 4');
+    $resource = mysql_query($base_query.' AND (prov_ballots=1) LIMIT 4');
     while($get = mysql_fetch_assoc($resource)){
       $data[] = $get;
     }

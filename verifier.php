@@ -20,7 +20,8 @@ get_header(); ?>
     <script type="text/javascript" src="/wp-content/themes/verified_voting/js/verifier/collections/officials.js"></script>
     <script type="text/javascript" src="/wp-content/themes/verified_voting/js/verifier/views/machine_list.js"></script>
     <script type="text/javascript" src="/wp-content/themes/verified_voting/js/verifier/views/map.js"></script>
-        <script type="text/javascript" src="/wp-content/themes/verified_voting/js/verifier/views/info.js"></script>
+    <script type="text/javascript" src="/wp-content/themes/verified_voting/js/verifier/views/title.js"></script>
+    <script type="text/javascript" src="/wp-content/themes/verified_voting/js/verifier/views/info.js"></script>
     <script type="text/javascript" src="/wp-content/themes/verified_voting/js/verifier/vv.js"></script>
     
     <script type="text/template" class="jst" id="list-view">
@@ -90,7 +91,7 @@ get_header(); ?>
 </script>
 
 
-  			<h1>Verifier</h1>
+  			<h2 id="map-title">Verifier</h2>
 <div style="width:994px;">
 				<article>			
 

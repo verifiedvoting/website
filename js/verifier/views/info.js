@@ -9,7 +9,14 @@ Info = Backbone.View.extend({
     var str = '';
     _(this.collection.models).each(function(official){
       row = official.attributes;
-      str += "<b>"+areas.currentName+"Summary</b><br/>";
+      var infoname = '';
+      if(areas.mode=='state'){
+        infoname = areas.state;
+      } else {
+        infoname = areas.county+' County';
+      }
+      str += "<b>"+infoname+"</b><br/>";
+      str += 'Chief Election Official<br/>';
       str += row['title']+'<br/>'+row['first_name'] +" "+ row['last_name']+"<br/>";
       str += row['address_1']+"<br/>";
       if(row['address_2'].length>0){

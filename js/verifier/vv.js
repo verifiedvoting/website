@@ -44,7 +44,8 @@ $(function(){
     el: document.getElementById("pp-list"),
     template: JST['list-view'],
     filters: ['pp_std','pp_acc'],
-    name : 'Polling Place Equipment'
+    name : 'Polling Place Equipment',
+    acc : true
   });
   
   earlyMachines = new MachineList({
@@ -52,7 +53,8 @@ $(function(){
     el: document.getElementById("ev-list"),
     template: JST['list-view'],
     filters: ['ev_std','ev_acc'],
-    name : 'Early Voting Equipment'
+    name : 'Early Voting Equipment',
+    acc: true
   });
   
   absenteeMachines = new MachineList({
@@ -70,8 +72,7 @@ $(function(){
     filters: ['prov_ballots'],
     name : 'Provisional Ballot Tabulation'
   });
-  
-  
+
   areas = new AreaCollection();
   map = new Map({
     collection : areas,
@@ -83,6 +84,11 @@ $(function(){
   info = new Info({
     collection : officials,
     el: document.getElementById("info"),
+  });
+   
+  title = new Title({
+    collection : areas,
+    el:document.getElementById('map-title')
   });
   
   areas.fetch({data:{mode:'country'}});

@@ -19,32 +19,6 @@ foreach($json->features as $feature){
   $county_query = "SELECT * FROM official WHERE state_fips LIKE $state_fips AND jurisdiction_type LIKE 'County' AND county_fips LIKE $county_fips";// AND (pp_std LIKE 1 OR pp_acc LIKE 1)";
   $result =  mysql_query($county_query);  
   $official = mysql_fetch_assoc($result);
-  /*
-  $rows = array();
-  while($row = mysql_fetch_assoc($result)){
-    array_push($rows,$row);
-    //$rows[] = $row;
-  }
-*/
-  
-  /*
-  $summary = flatten_array($rows);
-  echo 'count'.count($rows)."\n";
-  echo 'dre: '.$summary['dre']."\n";
-  */
-  
-  /*
-  if($summary['pbvs'] && $summary['dre'] && $summary['vvpat']&& !$summary['dre_x_vvpat']){
-    $feature->properties->CODE = 'mpbv';//should be
-  } else if($summary['pbvs'] && !$summary['dre'] && !$summary['vvpat'] && !$summary['dre_x_vvpat']){
-    $feature->properties->CODE = 'pbvs';//
-  } else if($summary['pbvs'] && $summary['dre'] && !$summary['vvpat'] && !$summary['dre_x_vvpat']){
-    $feature->properties->CODE = 'mpbn';
-  } else if(!$summary['pbvs'] && $summary['dre'] && $summary['vvpat'] && !$summary['dre_x_vvpat']){
-    $feature->properties->CODE = 'drev';
-  } else if (!$summary['vvpat'] && $summary['dre']  && !$summary['vvpat'] && !$summary['dre_x_vvpat']){
-    $feature->properties->CODE = 'dren';
-  }*/
   
   $feature->properties->CODE = strtolower($official['pp_system']);
   

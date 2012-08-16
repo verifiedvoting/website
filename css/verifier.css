@@ -39,16 +39,21 @@ path.none {
 }
 
 path.pbvs {
-  fill:#2c912d ;
+  fill:#2c912d;
 }
 
-path.mpbv {
+path.avbm {
+  fill:#4ca16d;
+}
+
+path.mpbv, path.mpdv  {
  fill:#43df45;
 }
 
-path.mpbn {
+path.mpbn, path.mpdn  {
     fill:#ffa500;
 }
+
 
 path.mpdx {
     fill:#cf20ff;

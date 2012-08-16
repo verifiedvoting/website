@@ -1,7 +1,7 @@
 Map = Backbone.View.extend({
   
   initialize : function(o){
-    _.bindAll(this,'render','displayBack','displayMap'); //bind our callback functions to the real this
+    _.bindAll(this,'render','displayMap'); //bind our callback functions to the real this
     this.collection.bind('reset',this.render);
     this.svg = o.svg;
   },
@@ -18,7 +18,13 @@ Map = Backbone.View.extend({
     var name = $(this).attr("data-name");
     var code = $(this).attr("data-code");
     
-    areas.currentName = name+" ";
+    areas.currentName = name;
+    
+    if(county){
+      areas.county = name;
+    } else {
+      areas.state = name;
+    }
     
     if(county==null) {
       $(".back").show();
@@ -26,9 +32,12 @@ Map = Backbone.View.extend({
       machines.fetch({data:{state:state}});
       officials.fetch({data:{state:state}});
     }  else {
+      areas.navigate({mode:'county',fips:county});
       machines.fetch({data:{county:county,state:state}});
       officials.fetch({data:{state:state,county:county}});
-    }   
+    }
+    
+    title.render();
   },
   
   displayBack : function(){
@@ -205,6 +214,8 @@ Map = Backbone.View.extend({
         //pol.attr("fill","rgb("+parseInt(mag*80*Math.random()+90*rand)+","+parseInt(Math.random()*90+50+50*rand)+"," +parseInt(170+rand*70)+ ")");
       }
     } 
+    
+    //$("#map-title").html(areas.breadcrumb);
     
     //console.log(bounds);
     //route clicks back to our map.click handler 
