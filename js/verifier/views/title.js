@@ -10,15 +10,15 @@ Title = Backbone.View.extend({
     if(master.mode=='country'){
     
     } else {
-      subtitle = ' - <span class="cousub" data-state-fips="'+master.stateFips+'">'+master.stateName+"</span>";
+      subtitle = ' - <span class="map-area" data-state-fips="'+master.stateFips+'">'+master.stateName+"</span>";
       if(master.mode=='county'){
         subtitle += " - "+master.countyName+" County";
       }
     }
     
-    $(this.el).html('<span class="cousub">Verifier</span>'+subtitle);
+    $(this.el).html('<span class="map-area">United States</span>'+subtitle);
     
-    $('span.cousub').click(function(){
+    $('span.map-area').click(function(){
       var stateFips = $(this).attr('data-state-fips');
       if(stateFips){
               master.navigate({mode:'state',fips:stateFips});

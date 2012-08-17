@@ -4,10 +4,15 @@ Map = Backbone.View.extend({
     _.bindAll(this,'render','displayMap'); //bind our callback functions to the real this
     this.collection.bind('reset',this.render);
     this.svg = o.svg;
+    
+    $('svg').mousemove(function(e){
+      $('#tooltip').css('left', e.pageX+20).css('top', e.pageY)
+    });
   },
   
   render : function(){  
     this.displayMap();
+    this.hideTooltip();
   },
   
   //clicking the map causes both machines and areas to change
@@ -37,21 +42,30 @@ Map = Backbone.View.extend({
   
   },
   
+  showTooltip : function(e){
+    var name = $(this).attr("data-name");
+    $('#tooltip').html(name).css('display','block');
+  },
+  
+  hideTooltip : function(e){
+    $('#tooltip').css('display','none');
+  },
+  
   displayBack : function(){
 
     var width = this.svg.attr("width");
     var height = this.svg.attr("height");
     
     d3.select("#ui").append("svg:rect")
-      .attr("x",width-85)
+      .attr("x",width-100)
       .attr("y",height-40)
-      .attr("width",70)
+      .attr("width",110)
       .attr("class","back")
       .attr("height",30)
-      .attr("style","fill:#eee;");
+      .attr("style","fill:#ddd;");
     
     d3.select("#ui").append("svg:text")
-      .text("BACK")
+      .text("Back To States")
       .attr("class","button back")
       .attr("text-anchor","middle")
       .attr("x",width-50)
@@ -71,8 +85,6 @@ Map = Backbone.View.extend({
   },
   
   displayMap : function(){
-  console.log('displaying!'+Math.random());
-
     var width = this.svg.attr("width");
     var height = this.svg.attr("height");
 
@@ -82,6 +94,7 @@ Map = Backbone.View.extend({
     var warpY = 1.25;
     
     $('#data').children().remove();
+    $('#ui').children().remove();
     
     divs.bbox[1] *= warpY;
     divs.bbox[3] *= warpY;
@@ -99,7 +112,7 @@ Map = Backbone.View.extend({
       scaleFactor = height/boxHeight;
     }
 
-    scaleFactor *= .95; //shave off 5% total, we'll offset by the remaining difference in size later
+    scaleFactor *= .9; //shave off 5% total, we'll offset by the remaining difference in size later
 
     // our divs object looks like this:
     // divs.features[].geometry.coordinates[][][x,y]
@@ -194,7 +207,7 @@ Map = Backbone.View.extend({
       pol.attr("data-cousub",divs.features[a].properties.COUSUB)
       .attr("data-state-fips",divs.features[a].properties.STATE)
       .attr("data-name",divs.features[a].properties.NAME)
-      .attr("title",divs.features[a].properties.NAME)
+     // .attr("title",divs.features[a].properties.NAME)
       .attr("class","map-area "+divs.features[a].properties.CODE)
       .attr("data-code",divs.features[a].properties.CODE)
       .attr("data-county-fips",divs.features[a].properties.COUNTY);
@@ -203,13 +216,14 @@ Map = Backbone.View.extend({
     
     //route clicks back to our map.click handler 
     if(master.mode=='country'){
+      
     } else {
       this.displayBack();
     }
 
-    
+    $("path.map-area").mouseleave(this.hideTooltip);
     $("path.map-area").click(this.click);
-    
+    $("path.map-area").mouseover(this.showTooltip);
   }
   
 });

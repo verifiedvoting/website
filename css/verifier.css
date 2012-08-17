@@ -1,8 +1,8 @@
 /* SHEET FOR THE VERIFIER */
 
 .map-area:hover {
-stroke:#000;
-fill:#FFF !important;
+  stroke:#000;
+  fill:#FFF !important;
 }
 
 .box {
@@ -12,19 +12,24 @@ fill:#FFF !important;
 }
 
 
-span.map-area:hover {
-  cursor:pointer;
+span.map-area {
   text-decoration: underline;
 }
 
-.button:hover {
-stroke:#000;
-fill:#12D;
+span.map-area:hover {
+  cursor:pointer;
 }
+
+.button:hover {
+  stroke:#000;
+  fill:#12D;
+  cursor:pointer;
+}
+
 #list {
-font-size:14px;
-padding-left:30px;
-padding-bottom:10px;
+  font-size:14px;
+  padding-left:30px;
+  padding-bottom:10px;
 }
 
 #list table {
@@ -36,7 +41,7 @@ padding-bottom:10px;
 }
 
 path {
-fill:rgb(100,100,100);
+  fill:rgb(100,100,100);
 }
 
 path.none {
@@ -52,16 +57,16 @@ path.avbm {
 }
 
 path.mpbv, path.mpdv  {
- fill:#43df45;
+  fill:#43df45;
 }
 
 path.mpbn, path.mpdn  {
-    fill:#ffa500;
+  fill:#ffa500;
 }
 
 
 path.mpdx {
-    fill:#cf20ff;
+  fill:#cf20ff;
 }
 
 path.drev {
@@ -73,11 +78,24 @@ path.dren {
 }
 
 path.greyed {
-  fill:#aab8aa !important;
+  fill:#cdc !important;
 }
 
 path {
   stroke:black;
 }
 
+
+#tooltip {
+  position: absolute;
+  z-index: 3000;
+  border: 1px solid #111;
+  background-color: #EEE;
+  padding: 5px;
+  
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -khtml-border-radius: 4px;
+  border-radius: 4px;
+}
 
