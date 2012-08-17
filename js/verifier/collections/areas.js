@@ -17,8 +17,8 @@ AreaCollection = Backbone.Collection.extend({
 
   url: '/api',
   
-  
   fetch : function(options){
+  console.log(options);
     return Backbone.Collection.prototype.fetch.call(this, options);
   },
   
@@ -26,28 +26,9 @@ AreaCollection = Backbone.Collection.extend({
   	if(res.error!=0){
   		if(debug.areas) console.log('Error: '+res.message);
   	} else {
-      //console.log(res.data);
+    	//thing
   	}
     return JSON.parse(res.data);
-	},
-	
-	//external calls
-	navigate: function(opt){ 
-  	if(opt.mode=='country'){
-    	this.mode = opt.mode;
-    	map.displayLoading();
-    	this.fetch({data:{mode:this.mode}});
-  	} else if(opt.mode=="state"){
-      this.mode = "state";
-      this.stateFips = opt.fips;
-      this.fips = opt.fips;
-      map.displayLoading();
-      this.breadcrumb = 'Verifier - '+this.currentName;
-      this.fetch({data:{mode:this.mode,state:this.fips}});
-  	} else if(opt.mode=='county'){
-      this.mode = "county";
-      this.countyFips = opt.fips;
-  	}
 	}
   
 });

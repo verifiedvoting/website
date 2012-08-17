@@ -24,10 +24,6 @@ MachineList = Backbone.View.extend({
     var title = '<b style="font-size:20px;">'+this.name+'</b><Br/>';
     var table = '';
     
-    //scope hack, can't see same 'this' inside of underscore filter anon funct
-    if(this.name =='Absentee Ballot Tabulation'){
-      console.log(this.collection.models.length+' models');
-    }
 
     var filtered = _.filter(this.collection.models,function(machine){
       if(this.filters.length>0){//only filter if we're handed filters
@@ -42,9 +38,6 @@ MachineList = Backbone.View.extend({
       return false;
     },this);
     
-    if(this.name =='Absentee Ballot Tabulation'){
-      console.log(filtered.length+' post type filter');
-    }
     
     if(filtered.length>0){
       table += '<table class="table table-striped table-bordered">';
@@ -56,9 +49,6 @@ MachineList = Backbone.View.extend({
       
       filtered = this.unique(filtered);
       
-      if(this.name =='Absentee Ballot Tabulation'){
-        console.log(filtered.length+' post duplicates removal');
-      }
       
       _(filtered).each(function(machine){
         table += '<tr>';

@@ -18,26 +18,20 @@ Map = Backbone.View.extend({
     var name = $(this).attr("data-name");
     var code = $(this).attr("data-code");
     
-    areas.currentName = name;
     
     if(county){
-      areas.county = name;
+      master.countyName = name;
     } else {
-      areas.state = name;
+      master.stateName = name;
     }
     
     if(county==null) {
       $(".back").show();
-      areas.navigate({mode:'state',fips:state});
-      machines.fetch({data:{state:state}});
-      officials.fetch({data:{state:state}});
+      master.navigate({mode:'state',fips:state});
     }  else {
-      areas.navigate({mode:'county',fips:county});
-      machines.fetch({data:{county:county,state:state}});
-      officials.fetch({data:{state:state,county:county}});
+      master.navigate({mode:'county',fips:county});
     }
-    
-    title.render();
+  
   },
   
   displayBack : function(){
@@ -60,7 +54,7 @@ Map = Backbone.View.extend({
       .attr("x",width-50)
       .attr("y",height-20);
     
-    $(".back").click(function(){areas.navigate({mode:'country'});});
+    $(".back").click(function(){master.navigate({mode:'country'});});
   },
   
   displayLoading : function(){
@@ -78,15 +72,12 @@ Map = Backbone.View.extend({
     var width = this.svg.attr("width");
     var height = this.svg.attr("height");
 
-    divs = this.collection.models[0].attributes; //there's only gonna be one big ole array
+    var divs = this.collection.models[0].attributes; //there's only gonna be one big ole array
   
     $('.loading').remove();
     var warpY = 1.25;
     
-    
     $('#data').children().remove();
-    
-    //console.log(divs);
     
     divs.bbox[1] *= warpY;
     divs.bbox[3] *= warpY;
@@ -150,7 +141,7 @@ Map = Backbone.View.extend({
     var bounds = [0,200,-200,0];
     
     
-    for(a in divs.features) {
+    for(var a in divs.features) {
       //start a string of points for our path data
       var str = "";
       var leftX = 0;
@@ -158,12 +149,12 @@ Map = Backbone.View.extend({
       //console.log(divs.features[a]);
 
       var topY = 0;
-      for(b in divs.features[a].geometry.coordinates) {
+      for(var b in divs.features[a].geometry.coordinates) {
         var dude = divs.features[a].geometry.coordinates[b];
         
         //BUILDING A PATH STRING str
         str +="M";//each poly within the path needs to start with a M move command
-        for(c in dude){
+        for(var c in dude){
           if(dude[c][0] < bounds[0]){
             bounds[0] = dude[c][0];
           }
@@ -219,7 +210,7 @@ Map = Backbone.View.extend({
     
     //console.log(bounds);
     //route clicks back to our map.click handler 
-    if(areas.mode=='country'){
+    if(master.mode=='country'){
     } else {
       this.displayBack();
     }

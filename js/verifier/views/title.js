@@ -7,19 +7,16 @@ Title = Backbone.View.extend({
   
   render : function(){
     var subtitle = '';
-    if(areas.mode=='country'){
+    if(master.mode=='country'){
     
     } else {
-      subtitle = ' - <span class="cousub" data-state-fips="'+areas.stateFips+'">'+areas.state+"</span>";
-      if(areas.mode=='county'){
-        subtitle += " - "+areas.county+" County";
+      subtitle = ' - <span class="cousub" data-state-fips="'+master.stateFips+'">'+master.stateName+"</span>";
+      if(master.mode=='county'){
+        subtitle += " - "+master.countyName+" County";
       }
     }
     
     $(this.el).html("Verifier"+subtitle);
-    
-    //$("span.cousub").click(map.click);
-    //$("span.cousub").click(function(){console.log('hi');});
   }
 
 });

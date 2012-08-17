@@ -22,6 +22,7 @@ get_header(); ?>
     <script type="text/javascript" src="/wp-content/themes/verified_voting/js/verifier/views/map.js"></script>
     <script type="text/javascript" src="/wp-content/themes/verified_voting/js/verifier/views/title.js"></script>
     <script type="text/javascript" src="/wp-content/themes/verified_voting/js/verifier/views/info.js"></script>
+    <script type="text/javascript" src="/wp-content/themes/verified_voting/js/verifier/master.js"></script>
     <script type="text/javascript" src="/wp-content/themes/verified_voting/js/verifier/vv.js"></script>
     
     <script type="text/template" class="jst" id="list-view">

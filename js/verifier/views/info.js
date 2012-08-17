@@ -10,10 +10,10 @@ Info = Backbone.View.extend({
     _(this.collection.models).each(function(official){
       row = official.attributes;
       var infoname = '';
-      if(areas.mode=='state'){
-        infoname = areas.state;
+      if(master.mode=='state'){
+        infoname = master.stateName;
       } else {
-        infoname = areas.county+' County';
+        infoname = master.countyName+' County';
       }
       str += "<b>"+infoname+"</b><br/>";
       str += 'Chief Election Official<br/>';

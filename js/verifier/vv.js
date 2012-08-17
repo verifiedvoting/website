@@ -7,8 +7,11 @@ var debug = { //debug switches
   machines : false
 }; 
 
+
 var c = {} //collections namespace
 var v = {} //our views namespace
+var master;
+
 
 var width = 740;
 var height = 500;
@@ -30,17 +33,18 @@ $(function(){
     
   svg.append("svg:g").attr("id","data"); 
   svg.append("svg:g").attr("id","ui");
-      
 
-  //BACKBONE BOOT
+  //---BACKBONE BOOT
   // compile all available templates using _.template
   $('.jst').each(function(index,el){
     JST[el.id] = _.template($(el).text());
   });
   
-  machines = new MachineCollection();
-  pollingMachines = new MachineList({
-    collection: machines,
+  //---MACHINES LISTS
+  c.machines = new MachineCollection();
+  
+  v.pollingMachines = new MachineList({
+    collection: c.machines,
     el: document.getElementById("pp-list"),
     template: JST['list-view'],
     filters: ['pp_std','pp_acc'],
@@ -48,8 +52,8 @@ $(function(){
     acc : true
   });
   
-  earlyMachines = new MachineList({
-    collection: machines,
+  v.earlyMachines = new MachineList({
+    collection: c.machines,
     el: document.getElementById("ev-list"),
     template: JST['list-view'],
     filters: ['ev_std','ev_acc'],
@@ -57,40 +61,47 @@ $(function(){
     acc: true
   });
   
-  absenteeMachines = new MachineList({
-    collection: machines,
+  v.absenteeMachines = new MachineList({
+    collection: c.machines,
     el: document.getElementById("abs-list"),
     template: JST['list-view'],
     filters: ['abs_ballots'],
     name : 'Absentee Ballot Tabulation'
   });
   
-  provisionalMachines = new MachineList({
-    collection: machines,
+  v.provisionalMachines = new MachineList({
+    collection: c.machines,
     el: document.getElementById("pro-list"),
     template: JST['list-view'],
     filters: ['prov_ballots'],
     name : 'Provisional Ballot Tabulation'
   });
 
-  areas = new AreaCollection();
-  map = new Map({
-    collection : areas,
+  //---AREA AND MAP
+  c.areas = new AreaCollection();
+  
+  v.map = new Map({
+    collection : c.areas,
     svg : svg,
     test : "hello world"
   });
   
-  officials = new OfficialCollection();
-  info = new Info({
-    collection : officials,
+  //---OFFICIALS AND INFO
+  c.officials = new OfficialCollection();
+  
+  v.info = new Info({
+    collection : c.officials,
     el: document.getElementById("info"),
   });
-   
-  title = new Title({
-    collection : areas,
+  
+  //---TITLE
+  v.title = new Title({
+    collection : c.areas,
     el:document.getElementById('map-title')
   });
   
-  areas.fetch({data:{mode:'country'}});
+  master = new Master(); //head controller for entire app
+  
+  master.navigate({mode:'country'});
   
 });
