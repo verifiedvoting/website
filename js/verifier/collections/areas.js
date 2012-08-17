@@ -18,7 +18,6 @@ AreaCollection = Backbone.Collection.extend({
   url: '/api',
   
   fetch : function(options){
-  console.log(options);
     return Backbone.Collection.prototype.fetch.call(this, options);
   },
   

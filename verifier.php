@@ -12,6 +12,8 @@ get_header(); ?>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <script type="text/javascript" src="/wp-content/themes/verified_voting/js/underscore.js"></script>
     <script type="text/javascript" src="/wp-content/themes/verified_voting/js/backbone.js"></script>
+    <script type="text/javascript" src="/wp-content/themes/verified_voting/js/jquery.svg.min.js"></script>
+    <script type="text/javascript" src="/wp-content/themes/verified_voting/js/jquery.svgdom.min.js"></script>
     <script type="text/javascript" src="/wp-content/themes/verified_voting/js/verifier/models/machine.js"></script>
     <script type="text/javascript" src="/wp-content/themes/verified_voting/js/verifier/models/area.js"></script>
     <script type="text/javascript" src="/wp-content/themes/verified_voting/js/verifier/models/official.js"></script>

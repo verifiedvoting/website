@@ -21,6 +21,9 @@ Map = Backbone.View.extend({
     
     if(county){
       master.countyName = name;
+      $('path.map-area').addClass('greyed');
+      $(this).removeClass('greyed');
+      
     } else {
       master.stateName = name;
     }
@@ -68,6 +71,7 @@ Map = Backbone.View.extend({
   },
   
   displayMap : function(){
+  console.log('displaying!'+Math.random());
 
     var width = this.svg.attr("width");
     var height = this.svg.attr("height");
@@ -191,30 +195,20 @@ Map = Backbone.View.extend({
       .attr("data-state-fips",divs.features[a].properties.STATE)
       .attr("data-name",divs.features[a].properties.NAME)
       .attr("title",divs.features[a].properties.NAME)
-      .attr("class","cousub "+divs.features[a].properties.CODE)
+      .attr("class","map-area "+divs.features[a].properties.CODE)
       .attr("data-code",divs.features[a].properties.CODE)
       .attr("data-county-fips",divs.features[a].properties.COUNTY);
-      
-      //random color for us to see
-      if(divs.features[a].properties.NAME == 'California' ){
-        pol.attr("fill","rgb(70,200,35)").attr("stroke","rgb(255,255,255)");
-      } else {
-        var mag = parseInt(5*(Math.sin( Math.PI*2.7*(leftX/width))+1)/2)/5.0;
-        //pol.attr("stroke","rgb(255,255,255)");
-        var rand = parseInt(3*Math.random()+9)/12.0;
-        //pol.attr("fill","rgb("+parseInt(mag*80*Math.random()+90*rand)+","+parseInt(Math.random()*90+50+50*rand)+"," +parseInt(170+rand*70)+ ")");
-      }
     } 
     
-    //$("#map-title").html(areas.breadcrumb);
     
-    //console.log(bounds);
     //route clicks back to our map.click handler 
     if(master.mode=='country'){
     } else {
       this.displayBack();
     }
-    $("path.cousub").click(this.click);
+
+    
+    $("path.map-area").click(this.click);
     
   }
   

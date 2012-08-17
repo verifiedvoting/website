@@ -1,8 +1,8 @@
 /* SHEET FOR THE VERIFIER */
 
-.cousub:hover {
+.map-area:hover {
 stroke:#000;
-fill:#FFF;
+fill:#FFF !important;
 }
 
 .box {
@@ -11,6 +11,11 @@ fill:#FFF;
   float:left;
 }
 
+
+span.map-area:hover {
+  cursor:pointer;
+  text-decoration: underline;
+}
 
 .button:hover {
 stroke:#000;
@@ -67,6 +72,9 @@ path.dren {
   fill:#dd2222;
 }
 
+path.greyed {
+  fill:#aab8aa !important;
+}
 
 path {
   stroke:black;

@@ -16,7 +16,17 @@ Title = Backbone.View.extend({
       }
     }
     
-    $(this.el).html("Verifier"+subtitle);
+    $(this.el).html('<span class="cousub">Verifier</span>'+subtitle);
+    
+    $('span.cousub').click(function(){
+      var stateFips = $(this).attr('data-state-fips');
+      if(stateFips){
+              master.navigate({mode:'state',fips:stateFips});
+      } else {
+        master.navigate({mode:'country'});
+      }
+
+    });
   }
 
 });
