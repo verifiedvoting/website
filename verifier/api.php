@@ -1,7 +1,7 @@
 <?php
 
 //GET arguments
-// mode [usa | state | machine | official] - same as the table name we want
+// mode [usa | state | machine-summary | official] - same as the table name we want
 // state [state fips]
 // county [county fips]
 // offset [num rows to offset]
@@ -17,6 +17,11 @@
 
 
 include('connection.php');
+
+if($_GET['mode']=='help'){
+  header(' ',true,501);
+  return_json(1, 'modes are usa, state, machine, official');
+}
 
 if(! $mode = $_GET['mode']) {
   header(' ',true,501);
@@ -44,7 +49,7 @@ if($mode=='state'){
   }
   
 
-} else if ($mode=='machine'){
+} else if ($mode=='machine-summary'){
   if($_GET['state'] || $_GET['county']){
     $state = $_GET['state'];
     $county = $_GET['county'];
@@ -91,7 +96,7 @@ if($mode=='state'){
 
   } else {
       header(' ',true,501);
-    return_json(0,'missing state and county for machine search');
+    return_json(0,'missing state and county for machine-summary search');
   }
 } else if($mode=="country"){
   $country = file_get_contents('usa.json');

@@ -11,7 +11,7 @@ MachineCollection = Backbone.Collection.extend({
   
   
   fetch : function(options){
-    options.data.mode = 'machine';
+    options.data.mode = 'machine-summary';
     return Backbone.Collection.prototype.fetch.call(this, options);
   },
 
