@@ -64,11 +64,35 @@ function filter_columns($in, $names){
 }
 
 function backup_and_drop($table){
-  $dumpfile = "/home/radicaldesigns/verified_wp/wp-content/themes/verified_voting/verifier/importer_backups/".$table . "_" . date("Y-m-d_H-i-s") . ".sql";
-  //echo "DEBUG: ABOUT TO SAVE A FILE OUT AS $dumpfile <br/>";
-  $dump_result = exec("/usr/bin/mysqldump --opt --host=$server --user=$user --password=$pass $dbname $table > $dumpfile");
-  //echo "RESULT " . $dump_result . "<br/><br/>";
+  $dumpfile = "/home/radicaldesigns/verified_wp/wp-content/themes/verified_voting/verifier/importer_backups/".$table. ".sql";
+  $exec_string = "/usr/bin/mysqldump --host=".$GLOBALS['server']." --user=".$GLOBALS['user']." --password=".$GLOBALS['password']." ".$GLOBALS['dbname']." $table > $dumpfile";  
+  $dump_result = exec($exec_string);
   mysql_query("TRUNCATE TABLE $table");//DROP THEM
+}
+
+function restore_backup($table){
+  //mysql_select_db($mysql_database) or die('Error selecting MySQL database: ' . mysql_error());
+
+  $templine = '';
+  $lines = file('/home/radicaldesigns/verified_wp/wp-content/themes/verified_voting/verifier/importer_backups/'.$table.'.sql');
+
+  foreach ($lines as $line)
+  {
+    // Skip it if it's a comment
+    if (substr($line, 0, 2) == '--' || $line == ''){
+      continue;
+    }
+    
+    // Add this line to the current segment
+    $templine .= $line;
+    // If it has a semicolon at the end, it's the end of the query
+    if (substr(trim($line), -1, 1) == ';'){
+      // Perform the query
+      mysql_query($templine) or print('Error performing query \'<strong>' . $templine . '\': ' . mysql_error() . '<br /><br />');
+      // Reset temp variable to empty
+      $templine = '';
+    }
+  }
 }
 
 function mysql_insert_array($table, $data, $exclude = array()) {
