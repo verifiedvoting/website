@@ -1,7 +1,7 @@
 /* SHEET FOR THE VERIFIER */
 
 .map-area:hover {
-  stroke:#000;
+  stroke-width:3px;
   fill:#FFF !important;
 }
 
@@ -16,14 +16,22 @@ span.map-area {
   text-decoration: underline;
 }
 
-span.map-area:hover {
-  cursor:pointer;
-}
 
 .button:hover {
   stroke:#000;
   fill:#12D;
   cursor:pointer;
+}
+
+.sidebar-main {
+  width:250px;
+  float:right;
+}
+
+.sidebar-box {
+  word-wrap:break-word;
+  padding:10px;
+  margin:5px 5px;
 }
 
 #list {

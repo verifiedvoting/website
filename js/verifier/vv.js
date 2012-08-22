@@ -100,6 +100,12 @@ $(function(){
     el:document.getElementById('map-title')
   });
   
+  v.search = new Search({
+    el:document.getElementById('search-nav')
+  });
+  
+  v.search.render();
+  
   master = new Master(); //head controller for entire app
   
   master.navigate({mode:'country'});

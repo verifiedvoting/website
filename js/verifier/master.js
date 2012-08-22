@@ -22,6 +22,7 @@ function Master(){
   	} else if(opt.mode=="state"){
       this.mode = "state";
       this.stateFips = opt.fips;
+      this.stateName = opt.name;
       v.map.displayLoading();
       c.areas.fetch({
         data:{
@@ -43,7 +44,7 @@ function Master(){
   	} else if(opt.mode=='county'){
       this.mode = "county";
       this.countyFips = opt.fips;
-      
+      this.countyName = opt.name;
       c.machines.fetch({
         data:{
           state:this.stateFips,

@@ -25,19 +25,19 @@ Map = Backbone.View.extend({
     
     
     if(county){
-      master.countyName = name;
+     // master.countyName = name;
       $('path.map-area').addClass('greyed');
       $(this).removeClass('greyed');
       
     } else {
-      master.stateName = name;
+     // master.stateName = name;
     }
     
     if(county==null) {
       $(".back").show();
-      master.navigate({mode:'state',fips:state});
+      master.navigate({mode:'state',fips:state,name:name});
     }  else {
-      master.navigate({mode:'county',fips:county});
+      master.navigate({mode:'county',fips:county,name:name});
     }
   
   },

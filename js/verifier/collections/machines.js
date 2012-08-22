@@ -18,7 +18,8 @@ MachineCollection = Backbone.Collection.extend({
   parse: function(res,xhr){
 		if(res.error!=0){
 			console.log('Error: '+res.message);
-		} else {
+		} else {  
+		  //
 		}
 		return res.data;
   
