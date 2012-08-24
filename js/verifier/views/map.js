@@ -23,6 +23,7 @@ Map = Backbone.View.extend({
     var name = $(this).attr("data-name");
     var code = $(this).attr("data-code");
     
+    v.search.hide();
     
     if(county){
      // master.countyName = name;
@@ -71,7 +72,9 @@ Map = Backbone.View.extend({
       .attr("x",width-50)
       .attr("y",height-20);
     
-    $(".back").click(function(){master.navigate({mode:'country'});});
+    $(".back").click(function(){
+      master.navigate({mode:'country'});
+    });
   },
   
   displayLoading : function(){
@@ -224,6 +227,18 @@ Map = Backbone.View.extend({
     $("path.map-area").mouseleave(this.hideTooltip);
     $("path.map-area").click(this.click);
     $("path.map-area").mouseover(this.showTooltip);
+  },
+  
+  recolor : function(states){
+    if(!states){
+         $('path.map-area').removeClass('deselected').removeClass('selected');
+    } else {
+      $('path.map-area').addClass('deselected').removeClass('selected');
+      _.each(states,function(state){
+        console.log('removing '+state);
+        $('svg path[data-state-fips="'+state+'"]').removeClass('deselected').addClass('selected');
+      });
+    }
   }
   
 });

@@ -16,10 +16,18 @@ span.map-area {
   text-decoration: underline;
 }
 
+form#machine-search{
+  margin:0px;
+}
 
 .button:hover {
   stroke:#000;
   fill:#12D;
+  cursor:pointer;
+}
+
+.fake-link{
+  text-decoration: underline;
   cursor:pointer;
 }
 
@@ -88,6 +96,16 @@ path.dren {
 path.greyed {
   fill:#cdc !important;
 }
+
+path.deselected {
+  fill:#ddd !important;
+}
+
+
+path.selected {
+  fill:#272 !important;
+}
+
 
 path {
   stroke:black;

@@ -9,16 +9,37 @@ Search = Backbone.View.extend({
     var str = JST['search-view']();
     $(this.el).html(str);
     
+    $('#search-title').click(this.show);
+    
     //jquery callbacks to change
     $('#state-select').change(this.change);
+    $('#machine-search').submit(function(){
+      //console.log($(this).serialize());
+      $.get('/api', 'mode=machine&'+$(this).serialize(),function(data){
+       data = JSON.parse(data);
+        console.log(data);
+        v.map.recolor(data.data);
+      });
+      return false;
+    });
   },
   
-  change: function(){//this being the ui dom element
-    /*master.navigate({
-      mode:'state',
-      fips:$(this).val(),
-      name:$(this).children().filter('option:selected').text()
-    });*/
+  show : function(){
+  master.navigate({mode:'country'});
+    $('#search-fold').show();
+    $('#search-title').removeClass('fake-link');
+    $('#info').hide();
+  },
+  
+  hide : function(){
+    $('#search-fold').hide();
+    $('#search-title').addClass('fake-link');
+        $('#info').show();
+  },
+  
+  
+  change: function(){
+
   }
   
 });
